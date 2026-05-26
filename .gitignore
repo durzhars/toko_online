@@ -1,0 +1,6 @@
+.env
+/vendor
+/composer.lock
+/composer.json
+/public/uploads/produk/*
+/public/uploads/profile/*
