@@ -7,41 +7,52 @@ use PDOException;
 use PDOStatement;
 
 /**
- * Kelas Wrapper Database
- * Menangani koneksi MariaDB menggunakan PDO dan Prepared Statements.
+ * Kelas Wrapper Database.
+ * Menangani koneksi ke database menggunakan PDO, menerapkan pola Koneksi Persisten,
+ * serta menyediakan antarmuka Prepared Statements yang aman dari SQL Injection.
  */
 class Database
 {
+    /** @var PDO Objek koneksi PDO utama */
     private PDO $pdo;
-    private PDOStatement $stmt;
+
+    /** @var PDOStatement|false Objek statement untuk eksekusi query */
+    private PDOStatement|false $stmt;
+
+    /** @var string Menyimpan pesan error jika koneksi gagal */
     private string $error;
 
     /**
-     * Inisialisasi koneksi saat kelas dipanggil.
-     * Mengambil kredensial dari file .env di root direktori.
+     * Inisialisasi koneksi saat kelas diinstansiasi.
+     * Mengambil kredensial dari file .env melalui kelas Helper.
      */
     public function __construct()
     {
-        $env = parse_ini_file(__DIR__ . '/../../.env');
-        $dsn = 'mysql:host=' . $env['DB_HOST'] . ';dbname=' . $env['DB_NAME'] . ';charset=utf8mb4';
+        $host = Helper::env('DB_HOST', 'localhost');
+        $dbName = Helper::env('DB_NAME', 'toko_online');
+        $user = Helper::env('DB_USER', 'root');
+        $pass = Helper::env('DB_PASS', '');
 
+        $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8mb4";
         $opts = [
-            PDO::ATTR_PERSISTENT => true,
+            PDO::ATTR_PERSISTENT => true, // Menggunakan koneksi persisten untuk performa
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
         ];
 
         try {
-            $this->pdo = new PDO($dsn, $env['DB_USER'], $env['DB_PASS'], $opts);
+            $this->pdo = new PDO($dsn, $user, $pass, $opts);
         } catch (PDOException $e) {
             $this->error = $e->getMessage();
-            die("Koneksi Database Gagal: " . $this->error);
+            die('Koneksi Database Gagal: ' . $this->error);
         }
     }
 
     /**
      * Mempersiapkan query SQL untuk dieksekusi.
-     * @param string $query Sintaks SQL yang akan dieksekusi
+     *
+     * @param string $query Sintaks SQL mentah dengan placeholder (misal: SELECT * FROM t WHERE id = :id).
+     * @return void
      */
     public function query(string $query): void
     {
@@ -49,34 +60,31 @@ class Database
     }
 
     /**
-     * Mengikat nilai ke dalam parameter query.
-     * @param int|string $param Nama parameter (contoh: ':id' atau 1)
-     * @param mixed $value Nilai yang akan dimasukkan
-     * @param int|null $type Tipe data PDO (Otomatis dideteksi jika null)
+     * Mengikat nilai ke dalam parameter query secara aman.
+     * Tipe data akan dideteksi secara otomatis jika tidak didefinisikan.
+     *
+     * @param int|string $param Nama parameter (contoh: ':id' atau index 1).
+     * @param mixed      $value Nilai yang akan dimasukkan.
+     * @param int|null   $type  Konstanta tipe data PDO (contoh: PDO::PARAM_INT).
+     * @return void
      */
-    public function bind(int|string $param, mixed $value, $type = null): void
+    public function bind(int|string $param, mixed $value, ?int $type = null): void
     {
         if (is_null($type)) {
-            switch (true) {
-                case is_int($value):
-                    $type = PDO::PARAM_INT;
-                    break;
-                case is_bool($value):
-                    $type = PDO::PARAM_BOOL;
-                    break;
-                case is_null($value):
-                    $type = PDO::PARAM_NULL;
-                    break;
-                default:
-                    $type = PDO::PARAM_STR;
-            }
+            $type = match (true) {
+                is_int($value) => PDO::PARAM_INT,
+                is_bool($value) => PDO::PARAM_BOOL,
+                is_null($value) => PDO::PARAM_NULL,
+                default => PDO::PARAM_STR,
+            };
         }
         $this->stmt->bindValue($param, $value, $type);
     }
 
     /**
      * Menjalankan statement query yang sudah disiapkan.
-     * @return bool TRUE jika sukses, FALSE jika gagal
+     *
+     * @return bool True jika eksekusi berhasil.
      */
     public function execute(): bool
     {
@@ -85,23 +93,53 @@ class Database
 
     /**
      * Mengambil seluruh baris data dari hasil eksekusi query.
-     *  @return array mengembalikan array berisi semua baris yang tersisa di result set.
-     *  Bisa sebagai baris array dari nilai kolom atau sebuah objek dengan
-     *  properties yang terkait dengan nama kolom tsb. Return 0 jika tidak ada
-     *  hasil yang di ambil
+     *
+     * @return array<int, array<string, mixed>> Array asosiatif baris data.
      */
     public function resultSet(): array
     {
         $this->execute();
-        return $this->stmt->fetchAll();
+        return $this->stmt->fetchAll() ?: [];
     }
 
     /**
      * Mengambil satu baris data tunggal dari hasil eksekusi query.
+     *
+     * @return array<string, mixed>|bool Array asosiatif baris data, atau FALSE jika tidak ditemukan.
      */
     public function single(): array|bool
     {
         $this->execute();
         return $this->stmt->fetch();
+    }
+
+    /**
+     * Memulai transaksi database (ACID Compliance).
+     *
+     * @return bool True jika berhasil dimulai.
+     */
+    public function beginTransaction(): bool
+    {
+        return $this->pdo->beginTransaction();
+    }
+
+    /**
+     * Menyimpan seluruh perubahan data pada transaksi secara permanen.
+     *
+     * @return bool True jika berhasil di-commit.
+     */
+    public function commit(): bool
+    {
+        return $this->pdo->commit();
+    }
+
+    /**
+     * Membatalkan seluruh perubahan data pada transaksi yang sedang berjalan.
+     *
+     * @return bool True jika berhasil di-rollback.
+     */
+    public function rollback(): bool
+    {
+        return $this->pdo->rollBack();
     }
 }
