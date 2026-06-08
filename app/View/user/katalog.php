@@ -1,43 +1,69 @@
 <?php
-/** @var \App\DTO\KatalogView $data */
+
+use App\Core\Helper;
+
+/**
+ * @var array<int, array<string, mixed>> $daftarProduk
+ * @var array<int, array<string, mixed>> $daftarKategori
+ * @var string|null $keyword
+ * @var string|null $kategoriId
+ */
 ?>
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= htmlspecialchars($data->title); ?></title>
-    <link rel="stylesheet" href="/toko_online/public/css/katalog.css">
-    <link rel="stylesheet" href="/toko_online/public/css/style.css">
-</head>
-<body>
-    <header>
-        <h1><?= htmlspecialchars($data->title); ?></h1>
-        <p>Selamat datang! Berikut adalah produk unggulan kami.</p>
+
+<div class="katalog-page-wrapper">
+
+    <header class="katalog-hero">
+        <h1>Katalog Produk</h1>
+        <p>Temukan barang impianmu dengan harga terbaik hari ini!</p>
     </header>
 
-    <main>
-        <div class="katalog-container" style="display: flex; flex-wrap: wrap; gap: 20px;">
-            <?php if (empty($data->daftarProduk)): ?>
-                <p>Belum ada produk yang tersedia.</p>
+    <main class="container">
+
+        <?php if (!empty($daftarKategori)): ?>
+            <div class="visual-category-container">
+                <h3 style="margin-top: 0px;">Kategori Pilihan</h3>
+                <div class="category-scroll-wrapper">
+
+                    <a href="<?= Helper::url('katalog') ?>" class="category-icon-item <?= empty($kategoriId) ? 'active' : '' ?>">
+                        <div class="icon-circle icon-all">
+                            <span>🛍️</span>
+                        </div>
+                        <span>Semua</span>
+                    </a>
+
+                    <?php foreach ($daftarKategori as $kat): ?>
+                        <?php $isActive = ($kategoriId == $kat['id']) ? 'active' : ''; ?>
+                        <a href="<?= Helper::url('katalog?kategori=' . $kat['id']) ?>" class="category-icon-item <?= $isActive ?>">
+                            <div class="icon-circle">
+                                <img src="<?= Helper::url(ltrim($kat['path_gambar'] ?? '/img/default-category.jpg', '/')) ?>" alt="<?= htmlspecialchars($kat['nama_kategori']) ?>">
+                            </div>
+                            <span><?= htmlspecialchars($kat['nama_kategori']) ?></span>
+                        </a>
+                    <?php endforeach; ?>
+
+                </div>
+            </div>
+        <?php endif; ?>
+
+        <?php if (!empty($keyword) || !empty($kategoriId)): ?>
+            <div class="search-indicator">
+                Menampilkan hasil untuk <strong>"<?= htmlspecialchars($keyword ?: 'Semua') ?>"</strong>
+                <a href="<?= Helper::url('katalog') ?>" class="text-danger btn-reset-search">✖ Reset Filter</a>
+            </div>
+        <?php endif; ?>
+
+        <div class="katalog-container">
+            <?php if (empty($daftarProduk)): ?>
+                <div class="empty-state w-100">
+                    <p>Maaf, produk yang Anda cari tidak ditemukan.</p>
+                </div>
             <?php else: ?>
-                <?php foreach ($data->daftarProduk as $produk): ?>
-                    <div class="kartu-produk" style="border: 1px solid #ccc; padding: 15px; width: 250px; border-radius: 8px;">
-                        <h3><?= htmlspecialchars($produk['nama_produk']); ?></h3>
-                        <p style="color: gray; font-size: 0.9em;">Kategori: <?= htmlspecialchars($produk['nama_kategori']); ?></p>
-                        <p><strong>Harga:</strong> Rp <?= number_format($produk['harga'], 0, ',', '.'); ?></p>
-                        <p><strong>Stok:</strong> <?= htmlspecialchars($produk['stok']); ?></p>
-                        <p style="font-size: 0.85em;"><?= htmlspecialchars($produk['deskripsi']); ?></p>
-                        <form action="/toko_online/public/keranjang/tambah" method="POST">
-                            <input type="hidden" name="produk_id" value="<?= $produk['id']; ?>">
-                            <button type="submit" style="padding: 10px; width: 100%; cursor: pointer;">
-                                Tambah ke Keranjang
-                            </button>
-                        </form>
-                    </div>
+                <?php foreach ($daftarProduk as $produk): ?>
+                    <?php require __DIR__ . '/partials/katalog_item.php'; ?>
                 <?php endforeach; ?>
             <?php endif; ?>
         </div>
+
     </main>
-</body>
-</html>
+
+</div>
