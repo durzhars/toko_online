@@ -1,0 +1,119 @@
+/* =========================================
+   GLOBAL LAYOUT & UTILITIES
+========================================= */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: system-ui, -apple-system, sans-serif;
+    background-color: #fdfdfd;
+    line-height: 1.6;
+}
+
+/* Menggunakan padding persentase agar otomatis menyusut di mobile */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 5%;
+}
+
+.container-sm {
+    width: 100%;
+    max-width: 900px;
+    /* Dibedakan ukurannya dari container biasa */
+    margin: 0 auto;
+    padding: 20px 5%;
+}
+
+.page-header {
+    padding: clamp(15px, 3vw, 30px) 5%;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 20px;
+    background: white;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Typography & Alignment */
+.text-right {
+    text-align: right;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-danger {
+    color: #d32f2f;
+}
+
+/* Spacing Utilities */
+.float-right {
+    float: right;
+}
+
+.ml-10 {
+    margin-left: 10px;
+}
+
+.mt-10 {
+    margin-top: 10px;
+}
+
+.mt-30 {
+    margin-top: 30px;
+}
+
+.w-100 {
+    width: 100%;
+}
+
+/* Flexbox Utilities */
+.d-flex {
+    display: flex;
+    flex-wrap: wrap;
+    /* Mencegah item keluar layar jika tidak muat */
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+/* Form Global Utilities */
+.form-box {
+    background: white;
+    padding: clamp(15px, 3vw, 25px);
+    /* Padding dinamis */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.form-label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+}
+
+.form-control:focus {
+    border-color: #2196f3;
+    outline: none;
+}

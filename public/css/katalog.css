@@ -1,0 +1,263 @@
+/* =========================================
+   BACKGROUND HALAMAN KATALOG
+========================================= */
+.katalog-page-wrapper {
+    /* 🚀 Ganti nama file ini dengan gambar yang ada di folder public/img/ milikmu */
+    background-color: #ffff;
+    /* Memastikan gambar menutupi seluruh area tanpa merusak rasio */
+    background-position: center;
+    background-repeat: repeat;
+
+    /* Membuat efek parallax sederhana (background diam saat di-scroll) */
+
+    min-height: 100vh;
+    padding-bottom: 40px;
+
+    /* 🚀 OPSIONAL: Jika gambar terlalu terang dan membuat kartu sulit dibaca, 
+       buka komentar dua baris di bawah ini untuk memberi efek transparan putih */
+    /* background-color: rgba(245, 247, 250, 0.85); */
+    /* background-blend-mode: overlay; */
+}
+
+/* =========================================
+   HEADER KATALOG (HERO BANNER)
+========================================= */
+.katalog-hero {
+    text-align: center;
+    padding: 40px 20px;
+    background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+    border-radius: 0 0 20px 20px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 10px rgba(33, 150, 243, 0.1);
+}
+
+.katalog-hero h1 {
+    color: #1565c0;
+    font-size: 2.5rem;
+    margin: 0 0 10px 0;
+}
+
+.katalog-hero p {
+    color: #555;
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+/* =========================================
+   INDIKATOR PENCARIAN & EMPTY STATE
+========================================= */
+.search-indicator {
+    background: #fff;
+    padding: 12px 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border-left: 4px solid #FF9800;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.95rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.btn-reset-search {
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.w-100 {
+    grid-column: 1 / -1;
+}
+
+.icon-all {
+    background-color: #e8f5e9 !important;
+    font-size: 1.8rem;
+}
+
+/* =========================================
+   NAVIGASI VISUAL KATEGORI
+========================================= */
+.visual-category-container {
+    margin-bottom: 30px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+}
+
+.category-scroll-wrapper {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    scrollbar-width: thin;
+    /* Firefox */
+}
+
+.category-scroll-wrapper::-webkit-scrollbar {
+    height: 6px;
+}
+
+.category-scroll-wrapper::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 10px;
+}
+
+.category-icon-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: #555;
+    min-width: 80px;
+    transition: transform 0.2s ease;
+}
+
+.category-icon-item:hover {
+    transform: translateY(-3px);
+}
+
+.icon-circle {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    border: 2px solid #eee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+    background-color: #f9f9f9;
+}
+
+.icon-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.category-icon-item:hover .icon-circle,
+.category-icon-item.active .icon-circle {
+    border-color: #2196F3;
+    box-shadow: 0 4px 8px rgba(33, 150, 243, 0.2);
+}
+
+.category-icon-item span {
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.category-icon-item.active span {
+    color: #2196F3;
+    font-weight: bold;
+}
+
+/* =========================================
+   KARTU PRODUK MODERN
+========================================= */
+.katalog-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.product-card {
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid #eee;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
+}
+
+.product-card:hover {
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    transform: translateY(-4px);
+}
+
+.product-link {
+    text-decoration: none;
+    color: inherit;
+    flex: 1;
+}
+
+.product-image-wrapper {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    /* Rasio aspek 1:1 */
+    background-color: #f8f9fa;
+}
+
+.product-thumb {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.badge-stock-out {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(229, 57, 53, 0.9);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.product-info {
+    padding: 15px;
+}
+
+.category-label {
+    font-size: 0.75rem;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.product-title {
+    margin: 5px 0 10px 0;
+    font-size: 1rem;
+    color: #333;
+    font-weight: 600;
+    line-height: 1.4;
+
+    /* Truncate jika teks terlalu panjang */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    height: 2.8em;
+}
+
+.product-price {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #e53935;
+    margin-bottom: 5px;
+}
+
+.product-stock-info {
+    font-size: 0.85rem;
+    color: #666;
+}
+
+.product-action {
+    padding: 0 15px 15px 15px;
+}
+
+.btn-cart {
+    border-radius: 8px;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}

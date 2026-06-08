@@ -1,0 +1,30 @@
+/* =========================================
+   AUTH COMPONENTS (Login & Register)
+========================================= */
+.auth-container {
+    max-width: 400px;
+    margin: 80px auto;
+    padding: 30px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.input-grup {
+    margin-bottom: 15px;
+}
+
+.input-grup label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.input-grup input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}

@@ -1,0 +1,88 @@
+/* =========================================
+   MODAL KONFIRMASI GLOBAL (FLUID & ROBUST)
+========================================= */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    /* Memastikan selalu selebar viewport */
+    height: 100vh;
+    /* Memastikan selalu setinggi viewport */
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    /* Blur sedikit dinaikkan agar fokus ke modal */
+    z-index: 99999;
+    /* Harus selalu paling atas, mengalahkan navbar/sticky footer */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    /* Menjaga agar kotak modal tidak pernah menyentuh ujung layar */
+    box-sizing: border-box;
+}
+
+.modal-box {
+    background: #fff;
+    padding: clamp(1.5rem, 5vw, 2.5rem);
+    /* Fluid padding */
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    text-align: center;
+    width: 100%;
+    max-width: 420px;
+    /* Modal bisa menyusut sampai sekecil apapun, tapi maksimal 420px */
+    animation: popInModal 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    box-sizing: border-box;
+}
+
+.modal-icon {
+    font-size: 3.5rem;
+    margin-bottom: 0.5rem;
+    line-height: 1;
+}
+
+.modal-box h3 {
+    margin-top: 0;
+    color: #222;
+    font-size: 1.5rem;
+}
+
+.modal-box p {
+    color: #555;
+    margin-bottom: 1.8rem;
+    line-height: 1.6;
+    font-size: 1rem;
+}
+
+/* Tombol Aksi */
+.modal-actions {
+    display: flex;
+    flex-wrap: wrap;
+    /* 🚀 KUNCI: Tombol akan turun ke bawah jika layar terlalu sempit */
+    gap: 1rem;
+    justify-content: center;
+}
+
+.modal-actions button {
+    flex: 1 1 calc(50% - 0.5rem);
+    /* Membagi 2 kolom secara rata dengan memperhitungkan gap */
+    padding: 0.8rem;
+    font-size: 1rem;
+    border-radius: 8px;
+    font-weight: 600;
+    min-width: 130px;
+    /* Mencegah tombol menyusut sampai teksnya rusak */
+}
+
+@keyframes popInModal {
+    from {
+        transform: scale(0.8) translateY(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+    }
+}

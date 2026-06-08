@@ -1,0 +1,241 @@
+/* =========================================
+   GLOBAL NAVBAR (MODERN E-COMMERCE)
+========================================= */
+.main-navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 5%;
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    gap: 30px;
+}
+
+.navbar-brand-container {
+    flex-shrink: 0;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    /* Jarak antara logo gambar dan teks */
+    text-decoration: none;
+}
+
+/* Mengatur ukuran logo agar proporsional di dalam navbar */
+.brand-logo-img {
+    height: 45px;
+    /* Sesuaikan tinggi maksimal logo di sini */
+    width: auto;
+    object-fit: contain;
+}
+
+.brand-text {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #2196F3;
+    letter-spacing: -0.5px;
+}
+
+/* --- Area Pencarian Tengah --- */
+.navbar-search-container {
+    flex: 1;
+}
+
+.navbar-search-form {
+    display: flex;
+    width: 100%;
+    border: 2px solid #2196F3;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #fff;
+}
+
+.navbar-search-input {
+    flex: 1;
+    border: none;
+    padding: 10px 15px;
+    font-size: 0.95rem;
+    outline: none;
+}
+
+.navbar-search-btn {
+    background-color: #2196F3;
+    border: none;
+    color: #fff;
+    padding: 0 20px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.navbar-search-btn:hover {
+    background-color: #1976D2;
+}
+
+/* --- Area Menu Kanan --- */
+.navbar-menu-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-shrink: 0;
+}
+
+.navbar-divider {
+    height: 24px;
+    width: 1px;
+    background-color: #e0e0e0;
+    margin: 0 5px;
+}
+
+.navbar-icon-link {
+    text-decoration: none;
+    color: #555;
+    font-size: 1.2rem;
+    position: relative;
+    padding: 5px;
+    border-radius: 4px;
+    transition: background-color 0.2s, color 0.2s;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-icon-link:hover {
+    background-color: #f5f5f5;
+    color: #2196F3;
+}
+
+.badge-cart {
+    background-color: #e53935;
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 10px;
+    position: absolute;
+    top: -5px;
+    right: -8px;
+    border: 2px solid #fff;
+}
+
+.user-greeting {
+    font-size: 0.9rem;
+    color: #666;
+    margin-right: 10px;
+}
+
+.text-primary {
+    color: #2196F3 !important;
+}
+
+.text-danger {
+    color: #e53935 !important;
+}
+
+/* Responsive untuk Mobile */
+@media (max-width: 768px) {
+    .main-navbar {
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .navbar-search-container {
+        order: 3;
+        max-width: 100%;
+        flex-basis: 100%;
+    }
+
+    .user-greeting {
+        display: none;
+    }
+}
+
+/* =========================================
+   DROPDOWN & HAMBURGER MENU
+========================================= */
+.dropdown-container {
+    position: relative;
+}
+
+.hamburger-btn {
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 8px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: bold;
+    color: #444;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+}
+
+.hamburger-btn:hover {
+    background: #f8f9fa;
+    border-color: #2196F3;
+    color: #2196F3;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: calc(100% + 15px);
+    /* Jarak dari tombol */
+    right: 0;
+    background: #fff;
+    min-width: 220px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    border: 1px solid #eee;
+
+    /* Setup Animasi Menghilang */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 1050;
+}
+
+/* Class 'show' di-trigger oleh JavaScript */
+.dropdown-menu.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown-header {
+    padding: 15px 20px;
+    background-color: #fcfcfc;
+    border-bottom: 1px solid #eee;
+    font-size: 0.95rem;
+}
+
+.dropdown-item {
+    padding: 12px 20px;
+    color: #444;
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.dropdown-item:hover {
+    background-color: #f1f8e9;
+    /* Efek hover hijau muda/biru muda */
+    color: #2196F3;
+}
+
+.dropdown-divider {
+    height: 1px;
+    background-color: #f0f0f0;
+    margin: 5px 0;
+}

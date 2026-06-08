@@ -1,0 +1,47 @@
+/* Keranjang Table */
+.table-keranjang {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.table-keranjang th,
+.table-keranjang td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.btn-hapus {
+    background: #ff4d4d;
+    color: white;
+    padding: 6px 12px;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+.btn-checkout {
+    background: #4caf50;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.btn-kembali {
+    background: #2196f3;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.keranjang-kosong {
+    text-align: center;
+    padding: 50px;
+    border: 1px dashed #ccc;
+    border-radius: 8px;
+    margin-top: 20px;
+}

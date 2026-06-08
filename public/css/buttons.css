@@ -1,0 +1,117 @@
+/* =========================================
+   BUTTON TEMPLATE (INHERITANCE)
+========================================= */
+.btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.6em 1.2em;
+    /* Menggunakan em agar padding proporsional dengan font-size */
+    border-radius: 5px;
+    border: 1px solid transparent;
+    text-decoration: none;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s ease-in-out;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.btn:hover {
+    opacity: 0.85;
+    transform: translateY(-1px);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+/* Sizes */
+.btn-sm {
+    padding: 0.4em 0.8em;
+    font-size: 0.85em;
+    border-radius: 4px;
+}
+
+.btn-block {
+    width: 100%;
+    font-weight: bold;
+}
+
+/* Modifiers (Colors) */
+.btn-primary {
+    background-color: #2196f3;
+    color: white;
+}
+
+.btn-success {
+    background-color: #4caf50;
+    color: white;
+    font-weight: bold;
+}
+
+.btn-danger {
+    background-color: #ff4d4d;
+    color: white;
+}
+
+.btn-warning {
+    background-color: #ff9800;
+    color: white;
+}
+
+.btn-dark {
+    background-color: #212121;
+    color: white;
+}
+
+.btn-outline-primary {
+    background-color: transparent;
+    color: #2196f3;
+    border-color: #2196f3;
+}
+
+.btn-outline-primary:hover {
+    background-color: #2196f3;
+    color: white;
+}
+
+/* Custom Legacy Buttons */
+.btn-auth {
+    width: 100%;
+    padding: 0.8em;
+    color: white;
+    background-color: #2196f3;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+.btn-hapus {
+    background: #ff4d4d;
+    color: white;
+    padding: 0.4em 0.8em;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+.btn-checkout {
+    background: #4caf50;
+    color: white;
+    padding: 0.8em 1.5em;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.btn-kembali {
+    background: #555;
+    color: white;
+    padding: 0.6em 1.2em;
+    text-decoration: none;
+    border-radius: 5px;
+}
