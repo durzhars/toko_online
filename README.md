@@ -78,6 +78,7 @@ Gunakan kredensial berikut untuk menguji sistem setelah database berhasil di-see
 | Pelanggan | pelanggan@email.com | pelanggan123 |
 
 ## 📁 Struktur Direktori Utama
+```
 toko_online/
 ├── app/                  # Logika utama aplikasi
 │   ├── Controller/       # Pengendali alur sistem (Admin & User)
@@ -95,3 +96,4 @@ toko_online/
 │   └── index.php         # Entry point aplikasi (Routing & Autoloader)
 ├── .env                  # Konfigurasi sistem
 └── seeder.php            # Skrip otomatisasi pengisian database
+```
