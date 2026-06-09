@@ -33,7 +33,7 @@ $alamat = $pesanan['alamat_pengiriman'] ?? [];
                     <?php foreach ($items as $item): ?>
                         <tr>
                             <td class="col-img">
-                                <img src="<?= Helper::url(ltrim($item['path_gambar'] ?? '/img/default-product.jpg', '/')) ?>" class="img-table-thumb" alt="thumb">
+                                <img src="<?= Helper::url(ltrim($item['path_gambar'] ?? '/assets/brand-logo.jpg', '/')) ?>" class="img-table-thumb" alt="thumb">
                             </td>
                             <td><?= htmlspecialchars($item['nama_produk']) ?></td>
                             <td class="col-center"><?= $item['jumlah'] ?></td>

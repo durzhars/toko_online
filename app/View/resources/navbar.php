@@ -9,7 +9,7 @@ $keyword = $_GET['q'] ?? '';
 <nav class="main-navbar">
     <div class="navbar-brand-container">
         <a href="<?= Helper::url('katalog') ?>" class="navbar-brand">
-            <img src="<?= Helper::url('assets/logo.png') ?>" alt="QShop Logo" class="brand-logo-img">
+            <img src="<?= Helper::url('assets/logo.png') ?>" alt="Kyushop Logo" class="brand-logo-img">
         </a>
     </div>
 
@@ -53,7 +53,7 @@ $keyword = $_GET['q'] ?? '';
                     <a href="<?= Helper::url('logout') ?>" class="dropdown-item text-danger" data-confirm="Yakin ingin keluar?">🚪 Logout</a>
                 <?php else: ?>
                     <div class="dropdown-header" style="text-align: center;">
-                        <p style="margin: 0 0 10px 0; font-size: 0.9em; color: #666;">Selamat datang di QShop</p>
+                        <p style="margin: 0 0 10px 0; font-size: 0.9em; color: #666;">Selamat datang di Kyushop</p>
                         <a href="<?= Helper::url('login') ?>" class="btn btn-primary btn-block btn-sm" style="margin-bottom: 5px;">Masuk</a>
                         <a href="<?= Helper::url('register') ?>" class="btn btn-outline-primary btn-block btn-sm">Daftar</a>
                     </div>

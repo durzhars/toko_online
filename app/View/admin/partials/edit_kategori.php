@@ -19,7 +19,7 @@ use App\Core\Helper;
         </div>
         <div class="form-group">
             <label class="form-label">Ikon / Gambar Kategori</label><br>
-            <img src="<?= \App\Core\Helper::url(ltrim($kategori['path_gambar'] ?? '/img/default-category.jpg', '/')) ?>" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px; margin-bottom: 10px; border: 1px solid #ddd;">
+            <img src="<?= \App\Core\Helper::url(ltrim($kategori['path_gambar'] ?? '/assets/brand-logo.jpg', '/')) ?>" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px; margin-bottom: 10px; border: 1px solid #ddd;">
             <input type="file" name="path_gambar" class="form-control" accept="image/png, image/jpeg, image/webp">
         </div>
         <button type="submit" class="btn btn-primary mt-10" data-confirm="Simpan perubahan nama kategori ini?">Update Kategori</button>

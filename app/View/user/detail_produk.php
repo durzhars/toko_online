@@ -7,7 +7,7 @@ use App\Core\Helper;
  * @var array<int, array<string, mixed>> $galeri
  * @var array<int, array<string, mixed>> $rekomendasi
  */
-$gambarUtama = Helper::url(ltrim($produk['path_gambar'] ?? '/img/default-product.jpg', '/'));
+$gambarUtama = Helper::url(ltrim($produk['path_gambar'] ?? '/assets/brand-logo.jpg', '/'));
 ?>
 
 <main class="container detail-page-container">

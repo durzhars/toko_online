@@ -9,7 +9,7 @@ use App\Core\Helper;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= htmlspecialchars($title ?? 'Admin Panel') ?> - QShop</title>
+    <title><?= htmlspecialchars($title ?? 'Admin Panel') ?> - Kyushop</title>
 
     <link rel="stylesheet" href="<?= Helper::url('css/global.css') ?>">
     <link rel="stylesheet" href="<?= Helper::url('css/buttons.css') ?>">
@@ -25,7 +25,7 @@ use App\Core\Helper;
             <button id="sidebarToggle" class="btn btn-dark" style="padding: 5px 12px; font-size: 1.2rem;">☰</button>
             <div class="navbar-brand-container">
                 <a href="<?= Helper::url('admin/dashboard') ?>" class="navbar-brand">
-                    <img src="<?= Helper::url('assets/logo.png') ?>" alt="QShop Logo" class="brand-logo-img">
+                    <img src="<?= Helper::url('assets/logo.png') ?>" alt="Kyushop Logo" class="brand-logo-img">
                 </a>
             </div>
             <span class="page-title-top ml-10" style="color: #888;">| <?= htmlspecialchars($title ?? 'Dashboard') ?></span>

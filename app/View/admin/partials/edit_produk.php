@@ -47,7 +47,7 @@ use App\Core\Helper;
 
         <div class="form-group">
             <label class="form-label">Ganti Foto Produk (Biarkan kosong jika tidak ingin mengubah)</label><br>
-            <img src="<?= Helper::url(ltrim($produk['path_gambar'] ?? '/img/default-product.jpg', '/')) ?>" alt="Foto saat ini" style="width: 100px; height: 100px; object-fit: cover; border-radius: 4px; margin-bottom: 10px; border: 1px solid #ddd;">
+            <img src="<?= Helper::url(ltrim($produk['path_gambar'] ?? '/assets/brand-logo.jpg', '/')) ?>" alt="Foto saat ini" style="width: 100px; height: 100px; object-fit: cover; border-radius: 4px; margin-bottom: 10px; border: 1px solid #ddd;">
             <input type="file" name="path_gambar" class="form-control" accept="image/png, image/jpeg, image/webp" style="padding: 7px;">
         </div>
 

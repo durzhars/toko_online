@@ -27,7 +27,7 @@ use App\Core\Helper;
                 <?php foreach ($produk as $p): ?>
                     <tr>
                         <td class="col-img">
-                            <img src="<?= Helper::url(ltrim($p['path_gambar'] ?? '/img/default-product.jpg', '/')) ?>"
+                            <img src="<?= Helper::url(ltrim($p['path_gambar'] ?? '/assets/brand-logo.jpg', '/')) ?>"
                                 alt="Foto"
                                 class="img-table-thumb">
                         </td>

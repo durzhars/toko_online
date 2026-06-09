@@ -29,7 +29,7 @@ use App\Core\Helper;
                 <tr>
                     <td><?= $kat['id'] ?></td>
                     <td class="col-img">
-                        <img src="<?= Helper::url(ltrim($kat['path_gambar'] ?? '/img/default-kategori.jpg', '/')) ?>"
+                        <img src="<?= Helper::url(ltrim($kat['path_gambar'] ?? '/assets/brand-logo.jpg', '/')) ?>"
                             alt="Foto"
                             class="img-table-thumb">
                     </td>

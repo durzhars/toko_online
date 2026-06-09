@@ -35,7 +35,7 @@ use App\Core\Helper;
                         <?php $isActive = ($kategoriId == $kat['id']) ? 'active' : ''; ?>
                         <a href="<?= Helper::url('katalog?kategori=' . $kat['id']) ?>" class="category-icon-item <?= $isActive ?>">
                             <div class="icon-circle">
-                                <img src="<?= Helper::url(ltrim($kat['path_gambar'] ?? '/img/default-category.jpg', '/')) ?>" alt="<?= htmlspecialchars($kat['nama_kategori']) ?>">
+                                <img src="<?= Helper::url(ltrim($kat['path_gambar'] ?? '/assets/brand-logo.jpg', '/')) ?>" alt="<?= htmlspecialchars($kat['nama_kategori']) ?>">
                             </div>
                             <span><?= htmlspecialchars($kat['nama_kategori']) ?></span>
                         </a>
