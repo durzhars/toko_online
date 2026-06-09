@@ -6,4 +6,3 @@ package*
 /composer.lock
 /composer.json
 /public/uploads/*
-/public/assets/*
