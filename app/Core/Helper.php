@@ -51,7 +51,7 @@ class Helper
      * @param string $ignoreFile Nama file yang kebal penghapusan (contoh: default-product.jpg).
      * @return void
      **/
-    public static function deleteFile(string $path, string $ignoreFile = 'default-'): void
+    public static function deleteFile(string $path, string $ignoreFile = 'brand-logo.jpg'): void
     {
         if (!empty($path) && !str_contains($path, $ignoreFile)) {
             $absolutePath = __DIR__ . '/../../public' . $path;
