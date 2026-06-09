@@ -16,6 +16,7 @@ use App\Core\Helper;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars($title ?? 'Toko Online') ?></title>
+    <link rel="icon" type="image/jpeg" href="<?= \App\Core\Helper::url('assets/brand-logo.jpg') ?>">
 
     <link rel="stylesheet" href="<?= Helper::url('css/global.css') ?>">
     <link rel="stylesheet" href="<?= Helper::url('css/buttons.css') ?>">
