@@ -69,27 +69,66 @@ class ImageService
             return false;
         }
 
+        $width = $info[0];
+        $height = $info[1];
         $mime = $info['mime'];
+
+        $maxWidth = 1200;
+        $maxHeight = 1200;
+
+        $newWidth = $width;
+        $newHeight = $height;
+
+        if ($width > $maxWidth || $height > $maxHeight) {
+            $ratio = min($maxWidth / $width, $maxHeight / $height);
+            $newWidth = (int)($width * $ratio);
+            $newHeight = (int)($height * $ratio);
+        }
 
         switch ($mime) {
             case 'image/jpeg':
-                $image = imagecreatefromjpeg($sourcePath);
-                $result = imagejpeg($image, $targetPath, $quality);
+                $sourceImage = imagecreatefromjpeg($sourcePath);
                 break;
             case 'image/png':
-                $image = imagecreatefrompng($sourcePath);
-                $pngQuality = round((100 - $quality) / 100 * 9);
-                imagealphablending($image, false);
-                imagesavealpha($image, true);
-                $result = imagepng($image, $targetPath, $pngQuality);
+                $sourceImage = imagecreatefrompng($sourcePath);
                 break;
             case 'image/webp':
-                $image = imagecreatefromwebp($sourcePath);
-                $result = imagewebp($image, $targetPath, $quality);
+                $sourceImage = imagecreatefromwebp($sourcePath);
                 break;
             default:
                 return move_uploaded_file($sourcePath, $targetPath);
         }
+
+        if (!$sourceImage) {
+            return false;
+        }
+
+        $targetImage = imagecreatetruecolor($newWidth, $newHeight);
+
+        if ($mime === 'image/png' || $mime === 'image/webp') {
+            imagealphablending($targetImage, false);
+            imagesavealpha($targetImage, true);
+            $transparent = imagecolorallocatealpha($targetImage, 255, 255, 255, 127);
+            imagefilledrectangle($targetImage, 0, 0, $newWidth, $newHeight, $transparent);
+        }
+
+        imagecopyresampled($targetImage, $sourceImage, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
+        $result = false;
+        switch ($mime) {
+            case 'image/jpeg':
+                $result = imagejpeg($targetImage, $targetPath, $quality);
+                break;
+            case 'image/png':
+                $pngQuality = round((100 - $quality) / 100 * 9);
+                $result = imagepng($targetImage, $targetPath, $pngQuality);
+                break;
+            case 'image/webp':
+                $result = imagewebp($targetImage, $targetPath, $quality);
+                break;
+        }
+        unset($sourceImage);
+        unset($targetImage);
+
         return $result;
     }
 }
