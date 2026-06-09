@@ -1,30 +1,13 @@
 <?php
 
-session_start();
-
 use App\Core\Helper;
 use App\Core\Router;
 
-/**
- * Autoloader (PSR-4 Standard)
- * Otomatis melakukan require file berdasarkan Class yang dipanggil.
- */
-spl_autoload_register(function (string $class) {
-    $prefix = 'App\\';
-    $base_dir = __DIR__ . '/../app/';
+session_start();
 
-    $len = strlen($prefix);
-    if (strncmp($prefix, $class, $len) !== 0) {
-        return;
-    }
+require_once __DIR__ . '/../app/Core/Helper.php';
 
-    $relative_class = substr($class, $len);
-    $file = $base_dir . str_replace('\\', '/', $relative_class) . '.php';
-
-    if (file_exists($file)) {
-        require_once $file;
-    }
-});
+Helper::registerAutoloader();
 
 $isDebug = (Helper::env('APP_DEBUG') == 1) || (Helper::env('APP_DEBUG') === 'true');
 
@@ -75,6 +58,10 @@ $router->post('/profil/alamat', 'User\ProfilController@storeAlamat');
 $router->delete('/profil/alamat/{id}', 'User\ProfilController@destroyAlamat');
 $router->put('/profil/alamat/{id}/utama', 'User\ProfilController@setUtama');
 
+// Simulasi Payment Gateway API
+$router->get('/payment/{id}', 'User\PaymentController@index');
+$router->post('/payment/{id}/process', 'User\PaymentController@process');
+
 // ==========================================
 // ROUTE ADMIN (Folder: Admin/)
 // ==========================================
@@ -102,13 +89,13 @@ $router->get('/admin/pesanan', 'Admin\TransaksiController@index');
 $router->get('/admin/pesanan/{id}', 'Admin\TransaksiController@show');
 $router->put('/admin/pesanan/{id}', 'Admin\TransaksiController@updateStatus');
 
+//Laporan
+$router->get('/admin/laporan', 'Admin\LaporanController@index');
+$router->get('/admin/laporan/export', 'Admin\LaporanController@exportCsv');
+
 // ==========================================
 // ROUTE PUBLIK & PENGGUNA (Folder: User/)
 // ==========================================
-
-// Simulasi Payment Gateway API
-$router->get('/payment/{id}', 'User\PaymentController@index');
-$router->post('/payment/{id}/process', 'User\PaymentController@process');
 
 // Eksekusi Router
 $router->dispatch();

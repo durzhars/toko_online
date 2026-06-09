@@ -153,6 +153,7 @@ CREATE TABLE `users` (
   `password` varchar(255) NOT NULL,
   `no_hp` varchar(20) DEFAULT NULL,
   `role` enum('admin','pelanggan') DEFAULT NULL,
+  `path_gambar` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -166,4 +167,4 @@ CREATE TABLE `users` (
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
 /*M!100616 SET NOTE_VERBOSITY=@OLD_NOTE_VERBOSITY */;
 
--- Dump completed on 2026-06-07 15:36:29
+-- Dump completed on 2026-06-09 13:40:18

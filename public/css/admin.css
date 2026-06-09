@@ -298,3 +298,45 @@ body {
     /* Jarak antara logo gambar dan teks */
     text-decoration: none;
 }
+
+/* =========================================
+   PENGATURAN CETAK (PRINT & PDF EXPORT)
+========================================= */
+@media print {
+
+    .admin-sidebar,
+    .admin-topnav,
+    .print-hidden,
+    .btn {
+        display: none !important;
+    }
+
+    /* Tampilkan elemen yang khusus untuk cetak */
+    .print-only {
+        display: block !important;
+    }
+
+    /* Reset margin & padding layout admin agar halaman memenuhi kertas */
+    .admin-wrapper,
+    .admin-main,
+    .admin-content,
+    body {
+        padding: 0 !important;
+        margin: 0 !important;
+        background-color: #fff !important;
+        overflow: visible !important;
+        position: static !important;
+    }
+
+    /* Penyesuaian Tabel agar warna tidak hilang (berguna di beberapa browser) */
+    .table-responsive-box {
+        box-shadow: none !important;
+        border: none !important;
+    }
+
+    .table-admin th {
+        background-color: #eee !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+}

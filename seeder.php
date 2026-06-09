@@ -1,16 +1,19 @@
 <?php
 
-require_once __DIR__ . "/vendor/autoload.php";
-
 use App\Core\Database;
 use App\Models\Users;
 use App\Models\Kategori;
 use App\Models\Produk;
 use App\Models\AlamatPengiriman;
+use App\Core\Helper;
+
+require_once __DIR__ . '/app/Core/Helper.php';
+Helper::registerAutoloader();
+
 
 echo "Menyiapkan Database Seeder...\n";
 
-// 1. Eksekusi Pembersihan (TRUNCATE) dengan aman
+// 2. Eksekusi Pembersihan (TRUNCATE) dengan aman
 $db = new Database();
 
 echo "Membersihkan data lama dari semua tabel...\n";
@@ -33,13 +36,13 @@ $db->execute();
 $db->query("SET FOREIGN_KEY_CHECKS = 1");
 $db->execute();
 
-// 2. Inisialisasi Model
+// 3. Inisialisasi Model
 $userModel = new Users();
 $kategoriModel = new Kategori();
 $produkModel = new Produk();
 $alamatModel = new AlamatPengiriman();
 
-// 3. Seeding Users
+// 4. Seeding Users
 echo "Mengisi Tabel Users...\n";
 $userModel->create([
     'nama' => 'Administrator',
@@ -57,8 +60,7 @@ $userModel->create([
     'role' => 'pelanggan'
 ]);
 
-// 4. Seeding Alamat Pengiriman
-// Karena di-truncate, ID Pelanggan pasti 2
+// 5. Seeding Alamat Pengiriman
 echo "Mengisi Tabel Alamat Pengiriman...\n";
 $alamatModel->create([
     'user_id' => 2,
@@ -78,7 +80,7 @@ $alamatModel->create([
     'is_utama' => 0
 ]);
 
-// 5. Seeding Kategori
+// 6. Seeding Kategori
 echo "Mengisi Tabel Kategori...\n";
 $daftarKategori = ['Elektronik', 'Pakaian', 'Buku', 'Perabotan'];
 foreach ($daftarKategori as $name) {
@@ -87,7 +89,7 @@ foreach ($daftarKategori as $name) {
     ]);
 }
 
-// 6. Seeding Produk
+// 7. Seeding Produk
 echo "Mengisi Tabel Produk...\n";
 $kataSifat = ['Super', 'Premium', 'Basic', 'Pro', 'Ultra', 'Klasik'];
 $kataBenda = ['Buku', 'Figurine', 'Novel', 'Blender', 'Sepatu', 'Jam Tangan'];
