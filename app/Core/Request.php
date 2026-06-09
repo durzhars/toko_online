@@ -205,4 +205,32 @@ class Request
 
         throw new \Exception("Gagal memindahkan gambar. Silakan periksa 'Write Permission' pada folder public/uploads.");
     }
+
+    /**
+     * Mendeteksi apakah request saat ini menggunakan protokol HTTPS yang aman
+     * (Mendukung pendeteksian di balik Reverse Proxy seperti Nginx atau Cloudflare).
+     *
+     * @return bool
+     */
+    public function isHttps(): bool
+    {
+        // Cek header standar dari web server
+        $https = strtolower((string) $this->server('HTTPS', 'off'));
+        if ($https === 'on' || $https === '1') {
+            return true;
+        }
+
+        // Cek port server standar HTTPS
+        if ($this->server('SERVER_PORT') == 443) {
+            return true;
+        }
+
+        // Cek header Forwarded dari Reverse Proxy (Cloudflare / Nginx)
+        $forwardedProto = strtolower((string) $this->server('HTTP_X_FORWARDED_PROTO', ''));
+        if ($forwardedProto === 'https') {
+            return true;
+        }
+
+        return false;
+    }
 }
