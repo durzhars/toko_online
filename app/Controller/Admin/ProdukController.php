@@ -75,12 +75,14 @@ class ProdukController extends Controller
                 'path_gambar' => '/assets/brand-logo.jpg',
             ];
 
-            $uploadedPath = $this->request->uploadFile('path_gambar', 'uploads/produk', 'prod_');
-            if ($uploadedPath) {
-                $data['path_gambar'] = $uploadedPath;
-            }
-
             try {
+                $fileInput = $this->request->file('path_gambar');
+                $uploadedPath = $this->handleImageUpload($fileInput, 'uploads/produk', 'prod_');
+
+                if ($uploadedPath) {
+                    $data['path_gambar'] = $uploadedPath;
+                }
+
                 $this->produkModel->create($data);
                 $this->flashRedirect('success', 'Produk berhasil ditambahkan.', 'admin/produk');
             } catch (Exception $e) {
@@ -104,13 +106,15 @@ class ProdukController extends Controller
                 'deskripsi' => $this->request->input('deskripsi'),
             ];
 
-            $uploadedPath = $this->request->uploadFile('path_gambar', 'uploads/produk', 'prod_');
-            if ($uploadedPath) {
-                $data['path_gambar'] = $uploadedPath;
-                Helper::deleteFile($produkLama['path_gambar'] ?? '');
-            }
-
             try {
+                $fileInput = $this->request->file('path_gambar');
+                $uploadedPath = $this->handleImageUpload($fileInput, 'uploads/produk', 'prod_');
+
+                if ($uploadedPath) {
+                    $data['path_gambar'] = $uploadedPath;
+                    Helper::deleteFile($produkLama['path_gambar'] ?? '');
+                }
+
                 $this->produkModel->update($id, $data);
                 $this->flashRedirect('success', 'Data produk berhasil diubah.', 'admin/produk');
             } catch (Exception $e) {
@@ -124,11 +128,9 @@ class ProdukController extends Controller
     {
         if ($this->request->isMethod('DELETE')) {
             $produk = $this->produkModel->findById($id);
-
             try {
                 $this->produkModel->delete($id);
                 Helper::deleteFile($produk['path_gambar'] ?? ''); // 🚀 Bersihkan file saat dihapus
-
                 $this->flashRedirect('success', 'Produk telah dihapus.', 'admin/produk');
             } catch (Exception $e) {
                 $this->flashRedirect(

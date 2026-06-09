@@ -154,58 +154,12 @@ class Request
     }
 
     /**
-     * Memproses upload file, memvalidasi ekstensi, dan memindahkannya ke direktori target.
-     *
-     * @param string $inputName    Nama field input file dari form.
-     * @param string $targetFolder Folder tujuan relatif terhadap public/ (contoh: 'uploads/produk').
-     * @param string $prefix       Awalan nama file unik (contoh: 'prod_').
-     * @param array<string> $allowedExt Array ekstensi yang diizinkan (default: ALLOWED_IMAGES).
-     * @return string|null Mengembalikan path relatif file jika sukses, atau null jika gagal.
+     * Mengambil array data file dari $_FILES secara aman.
      */
-    public function uploadFile(string $inputName, string $targetFolder, string $prefix = 'file_', array $allowedExt = self::ALLOWED_IMAGES): ?string
+    public function file(string $key): ?array
     {
-        // Jika form tidak mengirim file sama sekali, return null (gunakan default)
-        if (!isset($_FILES[$inputName]) || $_FILES[$inputName]['error'] === UPLOAD_ERR_NO_FILE) {
-            return null;
-        }
-
-        $file = $_FILES[$inputName];
-
-        // Cek apakah ada error dari sisi server PHP (misal: file kebesaran)
-        if ($file['error'] !== UPLOAD_ERR_OK) {
-            $maxSize = ini_get('upload_max_filesize');
-            throw new \Exception("Gagal mengunggah file. Kode Error: {$file['error']} (Maksimal ukuran file di server ini: {$maxSize})");
-        }
-
-        $tmpPath = $file['tmp_name'];
-        $fileName = $file['name'];
-        $ext = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
-
-        // Validasi Ekstensi File
-        if (!in_array($ext, $allowedExt)) {
-            throw new \Exception("Ekstensi file '{$ext}' tidak diizinkan! Gunakan: " . implode(', ', $allowedExt));
-        }
-
-        $newName = uniqid($prefix) . '.' . $ext;
-        $absoluteTargetDir = __DIR__ . '/../../public/' . trim($targetFolder, '/') . '/';
-
-        // Pastikan direktori tersedia
-        if (!is_dir($absoluteTargetDir)) {
-            if (!mkdir($absoluteTargetDir, 0755, true)) {
-                throw new \Exception("Gagal membuat direktori penyimpanan gambar di server. Dir: $absoluteTargetDir Nama: $newName");
-            }
-        }
-
-        $absoluteTargetFile = $absoluteTargetDir . $newName;
-
-        // Pindahkan file dan cek kegagalan permission
-        if (move_uploaded_file($tmpPath, $absoluteTargetFile)) {
-            return '/' . trim($targetFolder, '/') . '/' . $newName;
-        }
-
-        throw new \Exception("Gagal memindahkan gambar. Silakan periksa 'Write Permission' pada folder public/uploads.");
+        return $_FILES[$key] ?? null;
     }
-
     /**
      * Mendeteksi apakah request saat ini menggunakan protokol HTTPS yang aman
      * (Mendukung pendeteksian di balik Reverse Proxy seperti Nginx atau Cloudflare).

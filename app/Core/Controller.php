@@ -2,6 +2,8 @@
 
 namespace App\Core;
 
+use App\Services\ImageService;
+
 /**
  * Kelas Abstrak Controller.
  * Menjadi fondasi bagi semua controller aplikasi untuk memuat view dan mengelola HTTP Response.
@@ -34,6 +36,27 @@ abstract class Controller
         return new View($viewPath);
     }
 
+    /**
+     * Helper untuk memproses upload via Service dan menangani error-nya.
+     *
+     * @return string|null Path gambar jika berhasil, Null jika tidak ada file.
+     * @throws \Exception Jika upload gagal/ditolak.
+     */
+    protected function handleImageUpload(?array $fileInput, string $folder, string $prefix): ?string
+    {
+        if (!$fileInput || $fileInput['error'] === UPLOAD_ERR_NO_FILE) {
+            return null;
+        }
+
+        $path = \App\Services\ImageService::uploadAndCompress($fileInput, $folder, $prefix);
+
+        if ($path === false) {
+            $errorMsg = Session::getFlash('error') ?? 'Gagal memproses gambar.';
+            throw new \Exception($errorMsg);
+        }
+
+        return $path;
+    }
     /**
      * Mengalihkan (Redirect) pengguna ke URL tujuan secara paksa.
      *

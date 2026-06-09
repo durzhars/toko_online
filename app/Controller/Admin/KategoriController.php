@@ -70,12 +70,13 @@ class KategoriController extends Controller
                 'nama_kategori' => $this->request->input('nama_kategori'),
                 'path_gambar' => '/assets/brand-logo.jpg'
             ];
-
-            $uploadedPath = $this->request->uploadFile('path_gambar', 'uploads/kategori', 'cat_');
-            if ($uploadedPath) {
-                $data['path_gambar'] = $uploadedPath;
-            }
             try {
+                $fileInput = $this->request->file('path_gambar');
+                $uploadedPath = $this->handleImageUpload($fileInput, 'uploads/kategori', 'cat_');
+                if ($uploadedPath) {
+                    $data['path_gambar'] = $uploadedPath;
+                }
+
                 $this->kategoriModel->create($data);
                 $this->flashRedirect('success', 'Kategori berhasil ditambahkan', 'admin/kategori');
             } catch (Exception $e) {
@@ -118,13 +119,14 @@ class KategoriController extends Controller
             $kategoriLama = $this->kategoriModel->findById($id);
             $data = ['nama_kategori' => $this->request->input('nama_kategori')];
 
-            $uploadedPath = $this->request->uploadFile('path_gambar', 'uploads/kategori', 'cat_');
-            if ($uploadedPath) {
-                $data['path_gambar'] = $uploadedPath;
-                Helper::deleteFile($kategoriLama['path_gambar'] ?? '', 'default-category.jpg');
-            }
-
             try {
+                $fileInput = $this->request->file('path_gambar');
+                $uploadedPath = $this->handleImageUpload($fileInput, 'uploads/kategori', 'cat_');
+                if ($uploadedPath) {
+                    $data['path_gambar'] = $uploadedPath;
+                    Helper::deleteFile($kategoriLama['path_gambar'] ?? '');
+                }
+
                 $this->kategoriModel->update($id, $data);
                 $this->flashRedirect('success', 'Kategori berhasil diperbarui', 'admin/kategori');
             } catch (Exception $e) {
@@ -143,9 +145,10 @@ class KategoriController extends Controller
     public function destroy(string|int $id): void
     {
         if ($this->request->isMethod('DELETE')) {
+            $kategori = $this->kategoriModel->findById($id);
             try {
                 $this->kategoriModel->delete($id);
-                Helper::deleteFile($kategori['path_gambar'] ?? '', 'default-category.jpg');
+                Helper::deleteFile($kategori['path_gambar'] ?? '');
                 $this->flashRedirect('success', 'Kategori telah dihapus', 'admin/kategori');
             } catch (Exception $e) {
                 $this->flashRedirect(
