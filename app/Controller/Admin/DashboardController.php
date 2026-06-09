@@ -24,10 +24,8 @@ class DashboardController extends Controller
      */
     public function index(): void
     {
-        // Nantinya kita bisa melempar data statistik di sini (Total Pesanan, Total Produk, dll)
-
         $this->view('admin/dashboard')
-            ->layout('admin') // 🚀 Kita akan menggunakan layout khusus admin!
+            ->layout('admin')
             ->title('Dashboard Admin')
             ->render();
     }

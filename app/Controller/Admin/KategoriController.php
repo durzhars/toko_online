@@ -68,7 +68,7 @@ class KategoriController extends Controller
         if ($this->request->isMethod('POST')) {
             $data = [
                 'nama_kategori' => $this->request->input('nama_kategori'),
-                'path_gambar' => '/img/default-category.jpg'
+                'path_gambar' => '/assets/brand-logo.jpg'
             ];
 
             $uploadedPath = $this->request->uploadFile('path_gambar', 'uploads/kategori', 'cat_');

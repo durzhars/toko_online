@@ -4,6 +4,7 @@ namespace App\Controller\User;
 
 use App\Core\Auth;
 use App\Core\Controller;
+use App\Core\Response;
 use App\Models\Transaksi;
 use App\Services\PaymentGateway;
 use Exception;
@@ -66,7 +67,7 @@ class PaymentController extends Controller
             $gateway = new PaymentGateway();
             $apiResponse = $gateway->charge($apiPayload);
 
-            if ($apiResponse['status_code'] === 200 && $apiResponse['transaction_status'] === 'settlement') {
+            if ($apiResponse['status_code'] === Response::HTTP_OK && $apiResponse['transaction_status'] === 'settlement') {
                 try {
                     $transaksiModel->update($id, [
                         'status' => 'PAID',

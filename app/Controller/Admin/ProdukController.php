@@ -72,7 +72,7 @@ class ProdukController extends Controller
                 'harga' => $this->request->input('harga'),
                 'stok' => $this->request->input('stok'),
                 'deskripsi' => $this->request->input('deskripsi'),
-                'path_gambar' => '/img/default-product.jpg',
+                'path_gambar' => '/assets/brand-logo.jpg',
             ];
 
             $uploadedPath = $this->request->uploadFile('path_gambar', 'uploads/produk', 'prod_');

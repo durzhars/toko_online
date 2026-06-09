@@ -171,7 +171,7 @@ class Request
 
         $file = $_FILES[$inputName];
 
-        // 1. Cek apakah ada error dari sisi server PHP (misal: file kebesaran)
+        // Cek apakah ada error dari sisi server PHP (misal: file kebesaran)
         if ($file['error'] !== UPLOAD_ERR_OK) {
             $maxSize = ini_get('upload_max_filesize');
             throw new \Exception("Gagal mengunggah file. Kode Error: {$file['error']} (Maksimal ukuran file di server ini: {$maxSize})");
@@ -181,7 +181,7 @@ class Request
         $fileName = $file['name'];
         $ext = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
 
-        // 2. Validasi Ekstensi File
+        // Validasi Ekstensi File
         if (!in_array($ext, $allowedExt)) {
             throw new \Exception("Ekstensi file '{$ext}' tidak diizinkan! Gunakan: " . implode(', ', $allowedExt));
         }
@@ -189,7 +189,7 @@ class Request
         $newName = uniqid($prefix) . '.' . $ext;
         $absoluteTargetDir = __DIR__ . '/../../public/' . trim($targetFolder, '/') . '/';
 
-        // 3. Pastikan direktori tersedia
+        // Pastikan direktori tersedia
         if (!is_dir($absoluteTargetDir)) {
             if (!mkdir($absoluteTargetDir, 0755, true)) {
                 throw new \Exception("Gagal membuat direktori penyimpanan gambar di server. Dir: $absoluteTargetDir Nama: $newName");
@@ -198,7 +198,7 @@ class Request
 
         $absoluteTargetFile = $absoluteTargetDir . $newName;
 
-        // 4. Pindahkan file dan cek kegagalan permission
+        // Pindahkan file dan cek kegagalan permission
         if (move_uploaded_file($tmpPath, $absoluteTargetFile)) {
             return '/' . trim($targetFolder, '/') . '/' . $newName;
         }

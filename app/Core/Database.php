@@ -35,7 +35,7 @@ class Database
 
         $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8mb4";
         $opts = [
-            PDO::ATTR_PERSISTENT => true, // Menggunakan koneksi persisten untuk performa
+            PDO::ATTR_PERSISTENT => true,
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
         ];

@@ -60,4 +60,29 @@ class Helper
             }
         }
     }
+
+    /**
+     * Autoloader (PSR-4 Standard)
+     * Otomatis memuat file kelas tanpa menggunakan Composer.
+     */
+    public static function registerAutoloader(): void
+    {
+        spl_autoload_register(function (string $class) {
+            $prefix = 'App\\';
+            // __DIR__ adalah app/Core, jadi mundur satu level ke app/
+            $base_dir = __DIR__ . '/../';
+
+            $len = strlen($prefix);
+            if (strncmp($prefix, $class, $len) !== 0) {
+                return;
+            }
+
+            $relative_class = substr($class, $len);
+            $file = $base_dir . str_replace('\\', '/', $relative_class) . '.php';
+
+            if (file_exists($file)) {
+                require_once $file;
+            }
+        });
+    }
 }

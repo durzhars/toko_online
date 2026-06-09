@@ -134,4 +134,29 @@ class Transaksi extends Model
             throw $e;
         }
     }
+
+    /**
+     * Menarik data laporan transaksi berdasarkan tanggal dan status
+     *
+     * @param string $startDate Tanggal Awal (YYYY-MM-DD)
+     * @param string $endDate Tanggal akhir (YYYY-MM-DD)
+     * @param string $status Filter status transaksi
+     * @return array <int, array<string, mixed>>
+     **/
+    public function getLaporan(string $startDate, string $endDate, string $status = ''): array
+    {
+        $qdb = $this->query()
+            ->select('transaksi.*', 'users.nama as nama_pelanggan')
+            ->join('users', 'transaksi.user_id = users.id')
+            ->where('transaksi.created_at', '>=', $startDate . ' 00:00:00')
+            ->where('transaksi.created_at', '<=', $endDate . ' 23:59:59', 'AND');
+        if ($status != '') {
+            $qdb->where('transaksi.status', '=', $status, 'AND');
+        }
+
+        $results = $qdb->orderBy('transaksi.created_at', 'DESC')
+            ->get();
+
+        return array_map(fn ($row) => $this->processOutput($row), $results);
+    }
 }
