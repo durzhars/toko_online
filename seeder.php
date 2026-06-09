@@ -106,7 +106,7 @@ for ($i = 0; $i < 15; $i++) {
         'harga'       => $harga,
         'stok'        => $stok,
         'deskripsi'   => "Ini adalah deskripsi uji coba untuk produk {$namaProduk}. Kualitas terjamin dan siap dikirim.",
-        'path_gambar' => '/assets/logo.png'
+        'path_gambar' => '/assets/brand-logo.jpg'
     ]);
 }
 
