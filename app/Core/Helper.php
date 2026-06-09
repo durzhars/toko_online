@@ -48,19 +48,31 @@ class Helper
      * Menghapus file fisik dari directory server
      *
      * @param string $path Path relatif file (contoh: '/uploads/produk/file.jpg').
-     * @param string $ignoreFile Nama file yang kebal penghapusan (contoh: default-product.jpg).
+     * @param array<string> $ignoreFiles Daftar kata kunci yang kebal penghapusan.
      * @return void
      **/
-    public static function deleteFile(string $path, string $ignoreFile = 'brand-logo.jpg'): void
+    public static function deleteFile(string $path, array $ignoreFiles = ['default-']): void
     {
-        if (!empty($path) && !str_contains($path, $ignoreFile)) {
-            $absolutePath = __DIR__ . '/../../public' . $path;
-            if (file_exists($absolutePath) && is_file($absolutePath)) {
-                unlink($absolutePath);
+        if (empty($path)) {
+            return;
+        }
+
+        if (str_starts_with($path, '/assets/')) {
+            return;
+        }
+
+        foreach ($ignoreFiles as $ignore) {
+            if (str_contains($path, $ignore)) {
+                return;
             }
         }
-    }
 
+        $absolutePath = __DIR__ . '/../../public' . $path;
+
+        if (file_exists($absolutePath) && is_file($absolutePath)) {
+            unlink($absolutePath);
+        }
+    }
     /**
      * Autoloader (PSR-4 Standard)
      * Otomatis memuat file kelas tanpa menggunakan Composer.
