@@ -100,4 +100,35 @@ class KeranjangController extends Controller
             $this->redirect('keranjang');
         }
     }
+
+    /**
+     * [POST] Menghapus banyak produk sekaligus dari keranjang (Batch Delete).
+     *
+     * @return void
+     */
+    public function batchHapus(): void
+    {
+        if ($this->request->isMethod('POST')) {
+            $hapusIds = $this->request->input('hapus_ids', []);
+
+            if (!empty($hapusIds) && is_array($hapusIds)) {
+                $keranjang = $this->session->get('keranjang', []);
+                $jumlahDihapus = 0;
+
+                foreach ($hapusIds as $id) {
+                    if (isset($keranjang[$id])) {
+                        unset($keranjang[$id]);
+                        $jumlahDihapus++;
+                    }
+                }
+
+                $this->session->set('keranjang', $keranjang);
+                $this->flash('success', "Berhasil menghapus {$jumlahDihapus} produk dari keranjang.");
+            } else {
+                $this->flash('warning', 'Tidak ada produk yang dipilih untuk dihapus.');
+            }
+        }
+
+        $this->back();
+    }
 }

@@ -57,7 +57,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // 2. FORM TAMBAH KERANJANG (EVENT DELEGATION AJAX)
     // =========================================================================
     document.body.addEventListener("submit", async function(e) {
-        if (e.target && e.target.classList.contains("form-tambah") || e.target.classList.contains("add-to-cart-form")) {
+
+        // 🚀 PERBAIKAN: Memastikan target benar-benar elemen form agar JS tidak crash
+        if (e.target && e.target.tagName === 'FORM' && (e.target.classList.contains("form-tambah") || e.target.classList.contains("add-to-cart-form"))) {
             e.preventDefault();
 
             const form = e.target;
@@ -136,9 +138,20 @@ document.addEventListener("DOMContentLoaded", () => {
         btnConfirm.addEventListener('click', () => {
             modalOverlay.style.display = 'none';
             if (pendingAction) {
-                const form = pendingAction.closest('form');
-                if (form) form.submit();
-                else if (pendingAction.href) window.location.href = pendingAction.href;
+                // 1. Prioritas Tautan <a> (Untuk tombol hapus individu)
+                if (pendingAction.tagName.toLowerCase() === 'a' && pendingAction.href) {
+                    window.location.href = pendingAction.href;
+                }
+                // 2. Prioritas Tombol Submit (Untuk Hapus Massal)
+                else {
+                    // Cari form: Pertama dari atribut 'form="id"', jika tidak ada baru cari pembungkusnya
+                    const formId = pendingAction.getAttribute('form');
+                    const form = formId ? document.getElementById(formId) : pendingAction.closest('form');
+
+                    if (form) {
+                        form.submit();
+                    }
+                }
                 pendingAction = null;
             }
         });
@@ -252,5 +265,35 @@ document.addEventListener("DOMContentLoaded", () => {
     if (browserFingerprint) {
         const fp = navigator.userAgent + " | Res: " + screen.width + "x" + screen.height + " | Color: " + screen.colorDepth + " | Lang: " + navigator.language;
         browserFingerprint.value = btoa(fp);
+    }
+
+    // =========================================================================
+    // 9. BATCH DELETE (HAPUS MASSAL) UNTUK KERANJANG & ADMIN
+    // =========================================================================
+    const selectAllCb = document.getElementById('selectAllCb');
+    const itemCbs = document.querySelectorAll('.item-checkbox');
+    const btnBatchDelete = document.getElementById('btnBatchDelete');
+
+    if (selectAllCb && itemCbs.length > 0) {
+        const updateBatchBtn = () => {
+            const checkedCount = document.querySelectorAll('.item-checkbox:checked').length;
+            if (btnBatchDelete) {
+                btnBatchDelete.disabled = checkedCount === 0;
+                btnBatchDelete.innerText = checkedCount > 0 ? `🗑️ Hapus Terpilih (${checkedCount})` : '🗑️ Hapus Terpilih';
+            }
+        };
+
+        selectAllCb.addEventListener('change', function() {
+            itemCbs.forEach(cb => cb.checked = this.checked);
+            updateBatchBtn();
+        });
+
+        document.body.addEventListener('change', function(e) {
+            if (e.target.classList.contains('item-checkbox')) {
+                const allChecked = document.querySelectorAll('.item-checkbox:checked').length === itemCbs.length;
+                selectAllCb.checked = allChecked;
+                updateBatchBtn();
+            }
+        });
     }
 });

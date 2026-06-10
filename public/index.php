@@ -44,6 +44,7 @@ $router->get('/katalog/{id}', 'User\ProdukController@show');
 $router->get('/keranjang', 'User\KeranjangController@index');
 $router->post('/keranjang/tambah', 'User\KeranjangController@tambah');
 $router->get('/keranjang/hapus/{id}', 'User\KeranjangController@hapus');
+$router->post('/keranjang/batch-hapus', 'User\KeranjangController@batchHapus');
 
 // Transaksi & Checkout
 $router->get('/checkout', 'User\TransaksiController@checkout');
