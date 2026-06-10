@@ -134,6 +134,43 @@ class QueryBuilder
     }
 
     /**
+     * Menambahkan kondisi WHERE IN untuk memfilter berdasarkan array nilai.
+     * Sangat berguna untuk operasi Hapus Massal (Batch Delete).
+     *
+     * @param string $column  Nama kolom (misal: 'id').
+     * @param array  $values  Array berisi nilai yang dicari (misal: [1, 2, 3]).
+     * @param string $boolean Operator logika penghubung (AND / OR).
+     * @return self
+     */
+    public function whereIn(string $column, array $values, string $boolean = 'AND'): self
+    {
+        // Jika array kosong, buat query yang selalu bernilai salah (mencegah error/hapus semua)
+        if (empty($values)) {
+            $this->wheres[] = [
+                'sql' => '1 = 0',
+                'boolean' => strtoupper($boolean)
+            ];
+            return $this;
+        }
+
+        $placeholders = [];
+        foreach ($values as $index => $val) {
+            // Buat nama parameter unik: :in_id_0_0, :in_id_0_1, dst.
+            $paramName = ':in_' . str_replace('.', '_', $column) . '_' . count($this->bindings) . '_' . $index;
+            $placeholders[] = $paramName;
+            $this->bindings[$paramName] = $val;
+        }
+
+        $inString = implode(', ', $placeholders);
+        $this->wheres[] = [
+            'sql' => "$column IN ($inString)",
+            'boolean' => strtoupper($boolean)
+        ];
+
+        return $this;
+    }
+
+    /**
      * Menentukan urutan hasil (ORDER BY).
      *
      * @param string $column    Nama kolom.

@@ -21,10 +21,10 @@ $gambarUtama = Helper::url(ltrim($produk['path_gambar'] ?? '/assets/brand-logo.j
                 </div>
 
                 <div class="gallery-thumbnails">
-                    <img src="<?= $gambarUtama ?>" class="thumb-item active" onclick="changeMainImage(this.src, this)">
+                    <img src="<?= $gambarUtama ?>" class="thumb-item active">
                     <?php if (!empty($galeri)): ?>
                         <?php foreach ($galeri as $foto): ?>
-                            <img src="<?= Helper::url(ltrim($foto['path_gambar'], '/')) ?>" class="thumb-item" onclick="changeMainImage(this.src, this)">
+                            <img src="<?= Helper::url(ltrim($foto['path_gambar'], '/')) ?>" class="thumb-item">
                         <?php endforeach; ?>
                     <?php endif; ?>
                 </div>
@@ -60,12 +60,11 @@ $gambarUtama = Helper::url(ltrim($produk['path_gambar'] ?? '/assets/brand-logo.j
                 </form>
 
                 <div class="sticky-cart-footer">
-                    <button type="button" class="btn btn-primary btn-block btn-sticky" onclick="document.querySelector('.add-to-cart-form').submit()">
+                    <button type="button" id="btn-sticky-cart" class="btn btn-primary btn-block btn-sticky">
                         🛒 Tambah ke Keranjang
                     </button>
                 </div>
             </div>
-
         </div>
     </div>
 
@@ -85,12 +84,3 @@ $gambarUtama = Helper::url(ltrim($produk['path_gambar'] ?? '/assets/brand-logo.j
     <?php endif; ?>
 
 </main>
-
-<script>
-    function changeMainImage(src, element) {
-        document.getElementById('mainProductImage').src = src;
-        let thumbs = document.querySelectorAll('.thumb-item');
-        thumbs.forEach(thumb => thumb.classList.remove('active'));
-        element.classList.add('active');
-    }
-</script>

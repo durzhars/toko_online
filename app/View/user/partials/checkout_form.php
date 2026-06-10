@@ -4,9 +4,10 @@ use App\Core\Helper;
 
 /**
  * @var array<int, array<string, mixed>> $daftarAlamat
+ * @var array<string, mixed> $alamat
+ * @var int $index
  */
-?>
-<form action="<?= Helper::url('checkout/proses') ?>" method="POST" class="form-box">
+?><form action="<?= Helper::url('checkout/proses') ?>" method="POST" class="form-box">
     <h3 style="margin-top: 0;">Pilih Alamat Pengiriman</h3>
     <hr style="border-top: 1px solid #eee; margin-bottom: 20px;">
 
@@ -14,7 +15,7 @@ use App\Core\Helper;
         <?php foreach ($daftarAlamat as $index => $alamat): ?>
             <div class="form-group" style="padding: 15px; border: 1px solid <?= $index === 0 ? '#8bc34a' : '#ddd' ?>; border-radius: 5px; margin-bottom: 10px; background-color: <?= $index === 0 ? '#f1f8e9' : '#fff' ?>;">
                 <label style="cursor: pointer; display: flex; align-items: flex-start; gap: 10px; width: 100%;">
-                    <input type="radio" name="alamat_id" value="<?= $alamat['id'] ?>" <?= $index === 0 ? 'checked' : '' ?> onchange="toggleAlamatBaru(false)" style="margin-top: 5px;">
+                    <input type="radio" name="alamat_id" value="<?= $alamat['id'] ?>" <?= $index === 0 ? 'checked' : '' ?> style="margin-top: 5px;">
                     <div>
                         <span class="badge badge-paid" style="margin-bottom: 5px; display: inline-block;">
                             <?= htmlspecialchars($alamat['label']) ?> <?= $alamat['is_utama'] ? '(Utama)' : '' ?>
@@ -33,7 +34,9 @@ use App\Core\Helper;
 
     <div class="form-group" style="padding: 15px; border: 1px dashed #999; border-radius: 5px; margin-top: 20px;">
         <label style="cursor: pointer; display: flex; align-items: center; gap: 10px; font-weight: bold; font-size: 1.1em;">
-            <input type="radio" name="alamat_id" value="baru" <?= empty($daftarAlamat) ? 'checked' : '' ?> onchange="toggleAlamatBaru(true)">
+            <input type="radio" name="alamat_id" value="<?= $alamat['id'] ?>" <?= $index === 0 ? 'checked' : '' ?> class="radio-alamat-toggle" style="margin-top: 5px;">
+
+            <input type="radio" name="alamat_id" value="baru" <?= empty($daftarAlamat) ? 'checked' : '' ?> class="radio-alamat-toggle">
             Kirim ke Alamat Lain (Satu Kali Transaksi)
         </label>
 
@@ -57,14 +60,3 @@ use App\Core\Helper;
         Konfirmasi & Buat Pesanan
     </button>
 </form>
-
-<script>
-    function toggleAlamatBaru(show) {
-        const uiBaru = document.getElementById('ui-alamat-baru');
-        uiBaru.style.display = show ? 'block' : 'none';
-
-        // Opsional: set atribut required secara dinamis via JS
-        const inputs = uiBaru.querySelectorAll('input, textarea');
-        inputs.forEach(input => input.required = show);
-    }
-</script>

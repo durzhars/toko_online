@@ -13,7 +13,7 @@ use App\Core\Helper;
     </p>
 
     <div style="display: flex; justify-content: center; gap: 15px; margin: 25px; padding-bottom: 25px;">
-        <button onclick="window.history.back()" class="btn btn-dark">
+        <button id="btnBack" class="btn btn-dark">
             Kembali
         </button>
 

@@ -14,7 +14,7 @@ $flashTypes = [
         <?php if ($msg = Session::getFlash($type)): ?>
             <div class="toast-message <?= $cssClass ?>">
                 <span><?= htmlspecialchars($msg) ?></span>
-                <button onclick="this.parentElement.remove()" class="toast-close">&times;</button>
+                <button class="toast-close">&times;</button>
             </div>
         <?php endif; ?>
     <?php endforeach; ?>

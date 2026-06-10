@@ -62,16 +62,6 @@ use App\Core\Helper;
 
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const toggleBtn = document.getElementById('sidebarToggle');
-            const wrapper = document.getElementById('adminWrapper');
-
-            toggleBtn.addEventListener('click', function() {
-                wrapper.classList.toggle('collapsed');
-            });
-        });
-    </script>
 </body>
 
 </html>

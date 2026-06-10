@@ -2,8 +2,6 @@
 
 namespace App\Core;
 
-use App\Services\ImageService;
-
 /**
  * Kelas Abstrak Controller.
  * Menjadi fondasi bagi semua controller aplikasi untuk memuat view dan mengelola HTTP Response.

@@ -53,12 +53,13 @@ class KeranjangController extends Controller
     {
         if ($this->request->isMethod('POST')) {
             $produkId = $this->request->input('produk_id');
-            if ($produkId) {
+            $jumlahBaru = (int) $this->request->input('jumlah', 1);
+            if ($produkId && $jumlahBaru > 0) {
                 $keranjang = $this->session->get('keranjang', []);
                 if (isset($keranjang[$produkId])) {
-                    $keranjang[$produkId] += 1;
+                    $keranjang[$produkId] += $jumlahBaru;
                 } else {
-                    $keranjang[$produkId] = 1;
+                    $keranjang[$produkId] = $jumlahBaru;
                 }
                 $this->session->set('keranjang', $keranjang);
             }
@@ -76,8 +77,8 @@ class KeranjangController extends Controller
                 return;
             }
 
-            // Fallback jika JavaScript dimatikan di browser pengguna
-            $this->flashRedirect('success', 'Produk berhasil ditambahkan ke keranjang', 'katalog');
+            $this->flash('success', 'Produk berhasil ditambahkan ke keranjang');
+            $this->back();
         }
     }
 

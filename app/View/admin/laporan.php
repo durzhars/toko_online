@@ -2,6 +2,13 @@
 
 use App\Core\Helper;
 
+/**
+ * @var string $startDate
+ * @var string $endDate
+ * @var string $status
+ * @var int|float $totalPendapatan
+ * @var array<int, array<string, mixed>> $laporan
+ */
 ?>
 
 <div class="admin-header-actions print-hidden">
@@ -37,7 +44,7 @@ use App\Core\Helper;
 
             <button type="submit" formaction="<?= Helper::url('admin/laporan/export') ?>" class="btn btn-success" style="height: 42px;">📥 Ekspor CSV</button>
 
-            <button type="button" onclick="window.print()" class="btn btn-dark" style="height: 42px;">🖨️ Cetak</button>
+            <button type="button" id="btnPrint" class="btn btn-dark" style="height: 42px;">🖨️ Cetak</button>
         </div>
     </form>
 </div>

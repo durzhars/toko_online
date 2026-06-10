@@ -14,36 +14,10 @@
     <div class="modal-box">
         <h3 id="modalTitle">Form Aksi</h3>
         <hr>
-        <div id="modalBody">
-        </div>
+        <div id="modalBody"></div>
         <div class="modal-actions" style="margin-top: 20px;">
-            <button type="button" class="btn btn-dark" onclick="closeModal()">Batal</button>
-            <button type="button" class="btn btn-primary" onclick="submitModalForm()">Simpan Data</button>
+            <button type="button" id="btn-universal-cancel" class="btn btn-dark">Batal</button>
+            <button type="button" id="btn-universal-submit" class="btn btn-primary">Simpan Data</button>
         </div>
     </div>
 </div>
-
-<script>
-    function openModal(title, url) {
-        const modal = document.getElementById('universalModal');
-        document.getElementById('modalTitle').innerText = title;
-
-        // Fetch konten form dari URL (partial view)
-        fetch(url)
-            .then(response => response.text())
-            .then(html => {
-                document.getElementById('modalBody').innerHTML = html;
-                modal.style.display = 'flex';
-            });
-    }
-
-    function closeModal() {
-        document.getElementById('universalModal').style.display = 'none';
-    }
-
-    function submitModalForm() {
-        // Cari form di dalam modal dan submit
-        const form = document.querySelector('#modalBody form');
-        if (form) form.submit();
-    }
-</script>

@@ -23,7 +23,7 @@ $keyword = $_GET['q'] ?? '';
     <div class="navbar-menu-container">
 
         <a href="<?= Helper::url('keranjang') ?>" class="navbar-icon-link" title="Keranjang">
-            🛒 <span class="badge-cart"><?= $cart_count ?? 0 ?></span>
+            🛒 <span class="badge-cart" id="cart-counter"><?= $cart_count ?? 0 ?></span>
         </a>
 
         <a href="<?= Helper::url('pesanan') ?>" class="navbar-icon-link" , title="Pesanan Saya">📦</a>
@@ -62,25 +62,3 @@ $keyword = $_GET['q'] ?? '';
         </div>
     </div>
 </nav>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const menuBtn = document.getElementById('userMenuBtn');
-        const dropdown = document.getElementById('userDropdown');
-
-        if (menuBtn && dropdown) {
-            // Toggle menu saat tombol diklik
-            menuBtn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                dropdown.classList.toggle('show');
-            });
-
-            // Tutup menu jika user mengklik area lain di luar dropdown
-            document.addEventListener('click', function(e) {
-                if (!dropdown.contains(e.target) && e.target !== menuBtn) {
-                    dropdown.classList.remove('show');
-                }
-            });
-        }
-    });
-</script>

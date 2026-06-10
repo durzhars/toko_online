@@ -133,7 +133,7 @@ class Router
      */
     private function render404(string $url): void
     {
-        http_response_code(404);
+        http_response_code(Response::HTTP_NOT_FOUND);
 
         // Deteksi secara cerdas apakah user tersesat di area admin atau area publik
         $isAreaAdmin = str_starts_with($url, '/admin');

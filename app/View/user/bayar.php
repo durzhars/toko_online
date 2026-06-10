@@ -2,6 +2,9 @@
 
 use App\Core\Helper;
 
+/**
+ * @var array<string, mixed> $pesanan
+ */
 ?>
 
 <main class="container-sm" style="margin-top: 50px; margin-bottom: 50px; max-width: 600px;">
@@ -50,16 +53,3 @@ use App\Core\Helper;
     </div>
 
 </main>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // Menggabungkan User Agent, Resolusi Layar, dan Kedalaman Warna untuk simulasi Fingerprint Unik
-        const fp = navigator.userAgent +
-            " | Res: " + screen.width + "x" + screen.height +
-            " | Color: " + screen.colorDepth +
-            " | Lang: " + navigator.language;
-
-        // Melakukan Base64 Encode agar rapi untuk disubmit
-        document.getElementById('browserFingerprint').value = btoa(fp);
-    });
-</script>

@@ -221,13 +221,25 @@ abstract class Model
     }
 
     /**
-     * Menghapus data (Delete) dari tabel berdasarkan Primary Key.
+     * Menghapus data (Delete) dari tabel berdasarkan Primary Key atau sekumpulan Primary Key.
+     * Mendukung penghapusan tunggal (Single Delete) maupun massal (Batch Delete).
      *
-     * @param int|string $id Target ID baris yang akan dihapus.
+     * @param int|string|array $id Target ID baris, atau array dari ID untuk dihapus massal.
      * @return bool TRUE jika penghapusan sukses, FALSE jika gagal.
      */
-    public function delete(int|string $id): bool
+    public function delete(int|string|array $id): bool
     {
+        if (is_array($id)) {
+            if (empty($id)) {
+                return false;
+            }
+
+            return $this->query()
+                ->whereIn($this->primaryKey, $id)
+                ->delete();
+        }
+
+        // 🚀 Jika $id adalah nilai tunggal (int/string), gunakan penghapusan standar
         return $this->query()
             ->where($this->primaryKey, '=', $id)
             ->delete();
