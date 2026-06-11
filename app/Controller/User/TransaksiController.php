@@ -137,4 +137,32 @@ class TransaksiController extends Controller
             ->with('pesanan', $riwayatPesanan)
             ->render();
     }
+
+    /**
+     * [POST] Konfirmasi pesanan yang telah dikirim.
+     *
+     * @param string $id ID Transaksi.
+     * @return void
+     **/
+    public function selesaikanPesanan(string $id): void
+    {
+        Auth::requireLogin();
+
+        if ($this->request->isMethod('POST')) {
+            $transaksiModel = new Transaksi();
+            $pesanan = $transaksiModel->findById($id);
+
+            if ($pesanan && $pesanan['user_id'] == Auth::user('id') && $pesanan['status'] === 'SHIPPED') {
+                $berhasil = $transaksiModel->update($id, ['status' => 'COMPLETED']);
+
+                if ($berhasil) {
+                    $this->flashRedirect('success', 'Terima kasih! Pesanan telah ditandai selesai.', 'pesanan');
+                } else {
+                    $this->flashRedirect('error', 'Gagal memperbarui status pesanan.', 'pesanan');
+                }
+            } else {
+                $this->flashRedirect('warning', 'Pesanan tidak valid atau belum bisa diselesaikan.', 'pesanan');
+            }
+        }
+    }
 }

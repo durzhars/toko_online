@@ -41,10 +41,8 @@ use App\Core\Helper;
 
         <div style="display: flex; gap: 10px;">
             <button type="submit" class="btn btn-primary" style="height: 42px;">Filter Tampilkan</button>
-
             <button type="submit" formaction="<?= Helper::url('admin/laporan/export') ?>" class="btn btn-success" style="height: 42px;">📥 Ekspor CSV</button>
-
-            <button type="button" id="btnPrint" class="btn btn-dark" style="height: 42px;">🖨️ Cetak</button>
+            <button type="button" onclick="window.print()" class="btn btn-dark" style="height: 42px;">🖨️ Cetak</button>
         </div>
     </form>
 </div>

@@ -57,11 +57,10 @@ class LaporanController extends Controller
 
         $fileName = "Laporan_Penjualan_{$startDate}_sampai{$endDate}.csv";
 
-        // Server Side Output Buffering
         ob_start();
         $output = fopen('php://output', 'w');
 
-        fputcsv($output, ['ID Transaksi', 'Tanggal', 'Nama Pelanggan', 'Status', 'Total Tagihan']);
+        fputcsv($output, ['ID Transaksi', 'Tanggal', 'Nama Pelanggan', 'Status', 'Total Tagihan'], ',', '"', "");
 
         foreach ($laporan as $row) {
             fputcsv($output, [
@@ -70,7 +69,7 @@ class LaporanController extends Controller
                 $row['nama_pelanggan'],
                 $row['status'],
                 $row['total_tagihan'],
-            ]);
+            ], ',', '"', "");
         }
 
         fclose($output);

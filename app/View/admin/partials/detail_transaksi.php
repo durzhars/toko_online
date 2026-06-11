@@ -3,6 +3,9 @@
 use App\Core\Helper;
 
 $alamat = $pesanan['alamat_pengiriman'] ?? [];
+
+// Tentukan apakah Admin boleh mengubah resi (Hanya jika pesanan sudah dibayar atau sedang dikirim)
+$isEditable = in_array($pesanan['status'], ['PAID']);
 ?>
 
 <div class="admin-header-actions">
@@ -47,28 +50,38 @@ $alamat = $pesanan['alamat_pengiriman'] ?? [];
 
     <div style="flex: 1; min-width: 300px;">
         <div class="form-box" style="background-color: #f8f9fa;">
-            <h3 style="margin-top: 0;">Aksi Admin</h3>
+            <h3 style="margin-top: 0;">Status & Pengiriman</h3>
             <hr>
-            <form action="<?= Helper::url('admin/pesanan/' . $pesanan['id']) ?>" method="POST">
-                <input type="hidden" name="_method" value="PUT">
 
-                <div class="form-group">
-                    <label class="form-label">Status Pesanan</label>
-                    <select name="status" class="form-control">
-                        <option value="PENDING" <?= $pesanan['status'] == 'PENDING' ? 'selected' : '' ?>>PENDING (Menunggu Pembayaran)</option>
-                        <option value="PAID" <?= $pesanan['status'] == 'PAID' ? 'selected' : '' ?>>PAID (Sudah Dibayar)</option>
-                        <option value="SHIPPED" <?= $pesanan['status'] == 'SHIPPED' ? 'selected' : '' ?>>SHIPPED (Dikirim)</option>
-                        <option value="COMPLETED" <?= $pesanan['status'] == 'COMPLETED' ? 'selected' : '' ?>>COMPLETED (Selesai)</option>
-                    </select>
+            <div style="margin-bottom: 20px; text-align: center;">
+                <span style="font-size: 0.9em; color: #666;">Status Saat Ini:</span><br>
+                <span class="badge badge-<?= strtolower($pesanan['status']) ?>" style="font-size: 1.2em; padding: 10px 15px; margin-top: 5px; display: inline-block;">
+                    <?= htmlspecialchars($pesanan['status']) ?>
+                </span>
+            </div>
+
+            <?php if ($pesanan['status'] === 'PENDING'): ?>
+                <div class="alert alert-warning" style="background: #fff3cd; color: #856404; padding: 15px; border-radius: 5px; font-size: 0.9em;">
+                    ⏳ Menunggu pelanggan menyelesaikan pembayaran. Anda belum bisa memproses pengiriman.
                 </div>
+            <?php elseif ($pesanan['status'] === 'COMPLETED'): ?>
+                <div class="alert alert-success" style="background: #d4edda; color: #155724; padding: 15px; border-radius: 5px; font-size: 0.9em;">
+                    ✅ Pesanan telah selesai dan diterima oleh pelanggan. Tidak ada aksi lebih lanjut.
+                </div>
+            <?php endif; ?>
+
+            <form action="<?= Helper::url('admin/pesanan/' . $pesanan['id']) ?>" method="POST" style="<?= !$isEditable ? 'opacity: 0.6; pointer-events: none;' : '' ?>">
+                <input type="hidden" name="_method" value="PUT">
+                <input type="hidden" name="status" value="SHIPPED">
 
                 <div class="form-group">
                     <label class="form-label">Nomor Resi Pengiriman</label>
-                    <input type="text" name="resi_pengiriman" class="form-control" placeholder="Input resi kurir..." value="<?= htmlspecialchars($pesanan['resi_pengiriman'] ?? '') ?>">
+                    <input type="text" name="resi_pengiriman" class="form-control" placeholder="Input resi kurir..." value="<?= htmlspecialchars($pesanan['resi_pengiriman'] ?? '') ?>" <?= !$isEditable ? 'disabled' : 'required' ?>>
+                    <small style="color: #666; display: block; margin-top: 5px;">Menyimpan resi akan mengubah status pesanan menjadi <b>SHIPPED</b>.</small>
                 </div>
 
-                <button type="submit" class="btn btn-success btn-block" data-confirm="Simpan pembaruan status dan resi?">
-                    Simpan Pembaruan
+                <button type="submit" class="btn btn-primary btn-block" data-confirm="Kirimkan pesanan ini sekarang?" <?= !$isEditable ? 'disabled' : '' ?>>
+                    🚀 Proses Pengiriman
                 </button>
             </form>
         </div>

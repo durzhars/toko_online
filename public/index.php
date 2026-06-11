@@ -50,6 +50,7 @@ $router->post('/keranjang/batch-hapus', 'User\KeranjangController@batchHapus');
 $router->get('/checkout', 'User\TransaksiController@checkout');
 $router->post('/checkout/proses', 'User\TransaksiController@prosesCheckout');
 $router->get('/pesanan', 'User\TransaksiController@pesananSaya');
+$router->post('/pesanan/selesai/{id}', 'User\TransaksiController@selesaikanPesanan');
 
 // Profil & Buku Alamat
 $router->get('/profil', 'User\ProfilController@index');

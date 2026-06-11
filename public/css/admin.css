@@ -253,7 +253,7 @@ body {
 
 /* Mengamankan tombol Aksi agar berjajar rapi */
 .col-action {
-    text-align: right !important;
+    text-align: center !important;
     white-space: nowrap;
     /* Mencegah tombol turun ke baris baru */
 }
