@@ -61,6 +61,7 @@ use App\Core\Helper;
         </div>
 
     </div>
+    <script src="<?= Helper::url('scripts/app.js') ?>"></script>
 
 </body>
 

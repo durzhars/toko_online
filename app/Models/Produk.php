@@ -36,6 +36,7 @@ class Produk extends Model
     {
         $results = $this->query()
             ->where('kategori_id', '=', $kategoriId)
+            ->where('is_deleted', '=', 0)
             ->get();
 
         return array_map(fn ($row) => $this->filterHidden($row), $results);
@@ -51,6 +52,7 @@ class Produk extends Model
         $query = $this->query()
             ->select('produk.*', 'kategori.nama_kategori')
             ->join('kategori', 'produk.kategori_id = kategori.id')
+            ->where('produk.is_deleted', '=', 0)
             ->orderBy('produk.created_at', 'DESC')
             ->get();
 
@@ -68,7 +70,8 @@ class Produk extends Model
     {
         $query = $this->query()
             ->select('produk.*', 'kategori.nama_kategori')
-            ->join('kategori', 'produk.kategori_id = kategori.id');
+            ->join('kategori', 'produk.kategori_id = kategori.id')
+            ->where('produk.is_deleted', '=', 0);
 
         if (!empty($kategoriId)) {
             $query->where('produk.kategori_id', '=', $kategoriId);
@@ -115,10 +118,38 @@ class Produk extends Model
             ->join('kategori', 'produk.kategori_id = kategori.id')
             ->where('produk.kategori_id', '=', $kategoriId)
             ->where('produk.id', '!=', $excludeId)
+            ->where('produk.is_deleted', '=', 0)
             ->orderBy('produk.created_at', 'DESC')
             ->limit($limit)
             ->get();
 
         return array_map(fn ($row) => $this->processOutput($row), $results);
+    }
+
+    /**
+     * Menghapus data dari tabel berdasarkan Primary Key atau sekumpulan Primary Key.
+     *
+     * Method Override dari parent class Model.
+     * Melakukan soft-delete dengan mengubah kolom is_deleted ke 1(true).
+     * Mencegah rusaknya relasi data riwayat transaksi.
+     *
+     * @param int|string|array $id Target ID baris, atau array dari ID untuk dihapus massal.
+     * @return bool TRUE jika penghapusan sukses, FALSE jika gagal.
+     */
+    public function delete(int|string|array $id): bool
+    {
+        if (is_array($id)) {
+            if (empty($id)) {
+                return false;
+            }
+
+            return $this->query()
+                ->whereIn($this->primaryKey, $id)
+                ->update(['is_deleted' => 1]);
+        }
+
+        return $this->query()
+            ->where($this->primaryKey, '=', $id)
+            ->update(['is_deleted' => 1]);
     }
 }
