@@ -20,6 +20,9 @@ echo "Membersihkan data lama dari semua tabel...\n";
 $db->query("SET FOREIGN_KEY_CHECKS = 0");
 $db->execute();
 
+// 🚀 TAMBAHAN: Membersihkan galeri_produk agar tidak ada data yatim
+$db->query("TRUNCATE TABLE galeri_produk");
+$db->execute();
 $db->query("TRUNCATE TABLE detail_transaksi");
 $db->execute();
 $db->query("TRUNCATE TABLE transaksi");
@@ -106,7 +109,8 @@ for ($i = 0; $i < 15; $i++) {
         'harga'       => $harga,
         'stok'        => $stok,
         'deskripsi'   => "Ini adalah deskripsi uji coba untuk produk {$namaProduk}. Kualitas terjamin dan siap dikirim.",
-        'path_gambar' => '/assets/brand-logo.jpg'
+        'path_gambar' => '/assets/brand-logo.jpg',
+        'is_deleted'  => 0
     ]);
 }
 
