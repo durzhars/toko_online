@@ -24,6 +24,9 @@ class DetailTransaksi extends Model
             ->where('transaksi_id', '=', $id)
             ->get();
 
-        return array_map(fn ($row) => $this->processOutput($row), $results);
+        return array_map(function ($row) {
+            $row['subtotal'] = $row['harga_satuan'] * $row['jumlah'];
+            return $this->processOutput($row);
+        }, $results);
     }
 }

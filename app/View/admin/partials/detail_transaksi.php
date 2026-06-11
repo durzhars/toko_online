@@ -2,6 +2,8 @@
 
 use App\Core\Helper;
 
+/** @var array<string, mixed> $pesanan */
+
 $alamat = $pesanan['alamat_pengiriman'] ?? [];
 
 // Tentukan apakah Admin boleh mengubah resi (Hanya jika pesanan sudah dibayar atau sedang dikirim)
@@ -40,7 +42,7 @@ $isEditable = in_array($pesanan['status'], ['PAID']);
                             </td>
                             <td><?= htmlspecialchars($item['nama_produk']) ?></td>
                             <td class="col-center"><?= $item['jumlah'] ?></td>
-                            <td style="text-align: right;">Rp <?= number_format($item['harga_satuan'] * $item['jumlah'], 0, ',', '.') ?></td>
+                            <td style="text-align: right;">Rp <?= number_format($item['subtotal'], 0, ',', '.') ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>

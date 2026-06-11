@@ -2,6 +2,9 @@
 
 use App\Core\Helper;
 
+/**
+ * @var array<string, mixed> $pesanan
+ */
 ?>
 
 <div class="admin-header-actions">

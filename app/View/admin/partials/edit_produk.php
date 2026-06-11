@@ -2,6 +2,8 @@
 
 use App\Core\Helper;
 
+/** @var array<string, mixed> $kategori */
+/** @var array<string, mixed> $produk */
 ?>
 
 <div class="d-flex justify-between" style="align-items: center; margin-bottom: 20px;">
