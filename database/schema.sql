@@ -2,7 +2,7 @@
 --
 -- Host: localhost    Database: toko_online
 -- ------------------------------------------------------
--- Server version	12.3.2-MariaDB
+-- Server version	12.3.2-MariaDB-log
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -108,6 +108,7 @@ CREATE TABLE `produk` (
   `harga` int(11) DEFAULT NULL,
   `stok` int(11) DEFAULT NULL,
   `path_gambar` varchar(255) DEFAULT NULL,
+  `is_deleted` tinyint(1) DEFAULT 0,
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -167,4 +168,4 @@ CREATE TABLE `users` (
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
 /*M!100616 SET NOTE_VERBOSITY=@OLD_NOTE_VERBOSITY */;
 
--- Dump completed on 2026-06-09 13:40:18
+-- Dump completed on 2026-06-11 19:12:09
