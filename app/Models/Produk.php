@@ -78,8 +78,7 @@ class Produk extends Model
         $query = $this->query()
             ->select('produk.*', 'kategori.nama_kategori')
             ->join('kategori', 'produk.kategori_id = kategori.id')
-            ->where('produk.is_deleted', '=', 0)
-            ->where('kategori.is_deleted', '=', 0);
+            ->where('produk.is_deleted', '=', 0);
 
         if (!empty($kategoriId)) {
             $query->where('produk.kategori_id', '=', $kategoriId);
@@ -106,7 +105,6 @@ class Produk extends Model
             ->select('produk.*', 'kategori.nama_kategori')
             ->join('kategori', 'produk.kategori_id = kategori.id')
             ->where('produk.id', '=', $id)
-            ->where('produk.is_deleted', '=', 0)
             ->first();
 
         return $this->processOutput($produk);
