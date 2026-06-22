@@ -25,12 +25,16 @@ class ProdukController extends Controller
 
     public function index(): void
     {
-        $produk = $this->produkModel->getProdukLengkap();
+        $keyword = $this->request->input('q');
+        $produk = $this->produkModel->getProdukLengkap($keyword);
 
         $this->view('admin/produk')
             ->layout('admin')
             ->title('Manajemen Produk')
-            ->with('produk', $produk)
+            ->with([
+                'produk' => $produk,
+                'keyword' => $keyword
+            ])
             ->render();
     }
 

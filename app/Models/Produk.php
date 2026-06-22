@@ -47,16 +47,23 @@ class Produk extends Model
      *
      * @return array<int, array<string, mixed>> Daftar produk lengkap.
      */
-    public function getProdukLengkap(): array
+    public function getProdukLengkap(?string $keyword = null): array
     {
         $query = $this->query()
             ->select('produk.*', 'kategori.nama_kategori')
             ->join('kategori', 'produk.kategori_id = kategori.id')
-            ->where('produk.is_deleted', '=', 0)
-            ->orderBy('produk.created_at', 'DESC')
-            ->get();
+            ->where('produk.is_deleted', '=', 0);
 
-        return array_map(fn ($row) => $this->filterHidden($row), $query);
+        if (!empty($keyword)) {
+            $query->whereSearch([
+                'produk.nama_produk',
+                'kategori.nama_kategori'
+            ], $keyword);
+        }
+
+        $results = $query->orderBy('produk.created_at', 'DESC')->get();
+
+        return array_map(fn ($row) => $this->filterHidden($row), $results);
     }
 
     /**

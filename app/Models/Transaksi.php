@@ -57,13 +57,20 @@ class Transaksi extends Model
      *
      * @return array<int, array<string, mixed>>
      **/
-    public function getAllLengkap(): array
+    public function getAllLengkap(?string $keyword = null): array
     {
-        $results = $this->query()
+        $query = $this->query()
             ->select('transaksi.*', 'users.nama as nama_pelanggan')
-            ->join('users', 'transaksi.user_id = users.id')
-            ->orderBy('transaksi.created_at', 'DESC')
-            ->get();
+            ->join('users', 'transaksi.user_id = users.id');
+
+        if (!empty($keyword)) {
+            $query->whereSearch([
+                'transaksi_id',
+                'users.nama',
+            ], $keyword);
+        }
+
+        $results = $query->orderBy('transaksi.created_at', 'DESC')->get();
 
         return array_map(fn ($row) => $this->processOutput($row), $results);
     }

@@ -19,4 +19,31 @@ class Kategori extends Model
         parent::__construct();
         $this->table = 'kategori';
     }
+
+    /**
+     * Menghapus data dari tabel berdasarkan Primary Key atau sekumpulan Primary Key.
+     *
+     * Method Override dari parent class Model.
+     * Melakukan soft-delete dengan mengubah kolom is_deleted ke 1(true).
+     * Mencegah rusaknya relasi data riwayat transaksi.
+     *
+     * @param int|string|array $id Target ID baris, atau array dari ID untuk dihapus massal.
+     * @return bool TRUE jika penghapusan sukses, FALSE jika gagal.
+     */
+    public function delete(int|string|array $id): bool
+    {
+        if (is_array($id)) {
+            if (empty($id)) {
+                return false;
+            }
+
+            return $this->query()
+                ->whereIn($this->primaryKey, $id)
+                ->update(['is_deleted' => 1]);
+        }
+
+        return $this->query()
+            ->where($this->primaryKey, '=', $id)
+            ->update(['is_deleted' => 1]);
+    }
 }
