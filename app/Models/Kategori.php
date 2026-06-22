@@ -21,6 +21,19 @@ class Kategori extends Model
     }
 
     /**
+     * Mengambil semua kategori yang aktif (belum dihapus).
+     * Override dari Base Model.
+     */
+    public function findAll(): array
+    {
+        $results = $this->query()
+            ->where('is_deleted', '=', 0)
+            ->get();
+
+        return array_map(fn ($row) => $this->processOutput($row), $results);
+    }
+
+    /**
      * Menghapus data dari tabel berdasarkan Primary Key atau sekumpulan Primary Key.
      *
      * Method Override dari parent class Model.
